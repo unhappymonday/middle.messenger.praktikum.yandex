@@ -1,0 +1,27 @@
+@mixin input($variant: text) {
+  font-size: var(--font-14);
+  line-height: var(--line-height-14);
+  color: var(--color-secondary);
+
+  border: 0;
+  background-color: transparent;
+  background-color: transparent;
+  border-radius: 0;
+
+  @if $variant == text {
+    border-bottom: var(--border-primary);
+    padding-block: var(--gap-8);
+  } @else if $variant == send-input {
+    background-color: var(--color-accent-gray);
+    border-radius: var(--radius-30);
+    padding: var(--gap-10) var(--gap-20);
+  } @else if $variant == search-input {
+    background-color: var(--color-accent-gray);
+    border-radius: var(--radius-6);
+    padding: var(--gap-6) var(--gap-10);
+  } @else {
+    @error "Unknown input variant: #{$variant}";
+  }
+
+  @content;
+}
