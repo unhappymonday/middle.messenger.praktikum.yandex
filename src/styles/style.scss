@@ -1,6 +1,16 @@
 @use "sass:map";
 @use "fonts/font";
 @use "variables/modules" as *;
+@use "@/components/components.scss";
+@use "@/layout/layout.scss";
+@use "@/pages/page.scss";
+
+*,
+*::before,
+*::after {
+  font-family: var(--font) !important;
+  box-sizing: border-box;
+}
 
 :root {
   --font: "Inter", system-ui, sans-serif;
@@ -38,4 +48,17 @@
   @each $name, $value in $line-height {
     --line-height-#{$name}: #{$value};
   }
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+#app {
+  min-height: 100vh;
 }

@@ -1,4 +1,6 @@
 @mixin input($variant: text) {
+  padding: 0;
+
   font-size: var(--font-14);
   line-height: var(--line-height-14);
   color: var(--color-secondary);
@@ -8,14 +10,18 @@
   background-color: transparent;
   border-radius: 0;
 
+  &:focus-visible {
+    outline: none;
+  }
+
   @if $variant == text {
     border-bottom: var(--border-primary);
-    padding-block: var(--gap-8);
-  } @else if $variant == send-input {
+    padding-block: 0 var(--gap-8);
+  } @else if $variant == send {
     background-color: var(--color-accent-gray);
     border-radius: var(--radius-30);
     padding: var(--gap-10) var(--gap-20);
-  } @else if $variant == search-input {
+  } @else if $variant == search {
     background-color: var(--color-accent-gray);
     border-radius: var(--radius-6);
     padding: var(--gap-6) var(--gap-10);

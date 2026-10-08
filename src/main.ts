@@ -1,5 +1,10 @@
+import { registerPartial } from "@/helpers/registerPartial";
+import { registerHelpers } from "@/helpers/registerHelpers";
 import App from "./App";
 import "./styles/style.scss";
+
+registerPartial();
+registerHelpers();
 
 document.addEventListener("DOMContentLoaded", () => {
   const root = document.getElementById("app");

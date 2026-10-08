@@ -1,0 +1,5 @@
+@use "@/styles/mixins/modules" as *;
+
+.form__input {
+  @include input();
+}

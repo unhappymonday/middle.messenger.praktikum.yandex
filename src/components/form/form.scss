@@ -1,0 +1,10 @@
+@use "./__input/_text/form__input_text.scss";
+@use "./__input/_search/input_search.scss";
+@use "./__input/_send/input_send.scss";
+@use "./__label/form__label.scss";
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-16);
+}

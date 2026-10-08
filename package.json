@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/node": "^26.6.4",
     "sass-embedded": "^1.105.1",
     "scss": "^0.2.4",
     "typescript": "~6.0.2",
