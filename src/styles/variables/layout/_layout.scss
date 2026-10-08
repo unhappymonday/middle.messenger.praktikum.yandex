@@ -1,0 +1,15 @@
+$border-radius: (
+  "6": 0.6rem,
+  "8": 0.8rem,
+  "12": 1.2rem,
+  "20": 2rem,
+  "30": 3rem,
+);
+
+$border-style: (
+  "primary": 0.1rem solid var(--color-primary-accent),
+);
+
+$box-shadow: (
+  "primary": 0 0 6px 0 rgba(0, 0, 0, 0.14),
+);

@@ -1,0 +1,10 @@
+<button
+  type="{{#if type}}{{type}}{{else}}button{{/if}}"
+  class="button button__{{variant}} {{#if className}}{{className}}{{/if}}"
+  {{#if id}}id="{{id}}"{{/if}}
+  {{#if disabled}}disabled{{/if}}
+  {{dataAttrs data}}
+>
+  {{#if icon}}{{icon}}{{/if}}
+  {{#if text}}{{text}}{{/if}}
+</button>

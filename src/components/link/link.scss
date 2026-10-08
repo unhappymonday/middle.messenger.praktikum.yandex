@@ -1,0 +1,6 @@
+@use "@/styles/mixins/modules" as *;
+@forward "./_warning/link_warning.scss";
+
+.link__text {
+  @include link("text");
+}

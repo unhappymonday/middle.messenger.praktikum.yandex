@@ -1,0 +1,14 @@
+<form class="form">
+  {{#each fields}}
+    {{#> label text=label for=id}}
+      {{> input
+        type=type
+        id=id
+        value=value
+        placeholder=placeholder
+        disabled=disabled
+        variant="text"
+      }}
+    {{/label}}
+  {{/each}}
+</form>

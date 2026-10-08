@@ -1,0 +1,36 @@
+@mixin link($variant: text) {
+  width: fit-content;
+  display: block;
+  padding: var(--gap-4);
+
+  cursor: pointer;
+
+  font-size: var(--font-12);
+  line-height: var(--line-height-12);
+  text-decoration: none;
+
+  border: 0;
+
+  @if $variant == text {
+    color: var(--color-primary-accent);
+
+    &:hover {
+      color: color-mix(in srgb, var(--color-primary-accent), black 10%);
+    }
+  } @else if $variant == warning {
+    color: var(--color-primary-highlight);
+
+    &:hover {
+      color: color-mix(in srgb, var(--color-primary-highlight), black 10%);
+    }
+  } @else {
+    @error "Unknown button variant: #{$variant}";
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  @content;
+}
