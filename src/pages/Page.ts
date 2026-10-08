@@ -15,5 +15,5 @@ export abstract class Page {
     return compiled(this.getContext());
   }
 
-  afterRender(root: HTMLElement): void {}
+  afterRender(_root: HTMLElement): void {}
 }

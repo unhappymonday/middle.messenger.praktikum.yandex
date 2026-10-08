@@ -5,6 +5,5 @@ export type TFormCard = {
   formId: string;
   fields: TFormField[];
   submitText: string;
-  buttonType: "auth" | "registration";
   link: { text: string; page: "auth" | "registration" };
 };
