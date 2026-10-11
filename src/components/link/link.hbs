@@ -2,4 +2,8 @@
   href="{{#if href}}{{href}}{{else}}#{{/if}}"
   class="link link__{{variant}}{{#if className}} {{className}}{{/if}}"
   {{#if page}}data-page="{{page}}"{{/if}}
->{{text}}</a>
+  {{#if action}}data-action="{{action}}"{{/if}}
+>
+  <span>{{text}}</span>
+  <span>{{#if icon}}{{> (lookup . "icon")}}{{/if}}</span>
+</a>

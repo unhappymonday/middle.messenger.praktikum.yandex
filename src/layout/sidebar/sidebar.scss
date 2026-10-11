@@ -1,0 +1,37 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--color-gray-94);
+
+  border-right: var(--border-secondary);
+}
+
+.sidebar__settings {
+  height: 100vh;
+  justify-content: center;
+}
+
+.sidebar__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-24);
+  padding: var(--gap-20) var(--gap-14) var(--gap-10);
+}
+
+.sidebar__item {
+  cursor: pointer;
+  padding-inline: var(--gap-10);
+
+  &:hover {
+    background-color: var(--color-blue-94);
+  }
+}
+
+.sidebar__item_active {
+  background-color: var(--color-blue-94);
+}
+
+.link__profile-sidebar {
+  align-self: flex-end;
+}

@@ -1,0 +1,6 @@
+@use "@/styles/mixins/modules" as *;
+
+.input__send {
+  width: 100%;
+  @include input("send");
+}

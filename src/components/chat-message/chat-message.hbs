@@ -1,0 +1,7 @@
+<div class="chat-message chat-message_{{sender}}">
+  {{content}}
+  <div class="chat-message__info">
+    <span class="time">{{formatClock sent_at}}</span>
+    {{#if isOwn}}{{> check-icon}}{{/if}}
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="chat-card{{#if isActive}} chat-card_active{{/if}}" data-chat-id="{{id}}" data-action="onClickChat">
+  <div class="chat-card__body">
+    {{> avatar avatar=avatar type="small"}}
+    <div class="chat-card__main">
+      <span class="chat-card__name">{{name}}</span>
+      <p class="chat-card__message">
+        {{#if isOwnMessage}}<span class="chat-card__you">Вы:</span> {{/if}}{{lastMessage}}
+      </p>
+    </div>
+  </div>
+
+  <div class="chat-card__info">
+    <span class="chat-card__time">{{time}}</span>
+    {{#if unreadCount}}
+      {{> chip count=unreadCount}}
+    {{/if}}
+  </div>
+</div>

@@ -1,0 +1,9 @@
+.chat-message_own {
+  border-radius: var(--radius-20) var(--radius-20) 0 var(--radius-20);
+  background-color: var(--color-blue-94);
+  align-self: flex-end;
+}
+
+.chat-message_own .time {
+  color: var(--color-primary-accent);
+}

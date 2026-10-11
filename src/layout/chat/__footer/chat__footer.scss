@@ -1,0 +1,9 @@
+.chat__footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-block: var(--gap-10);
+  border-top: var(--border-secondary);
+}

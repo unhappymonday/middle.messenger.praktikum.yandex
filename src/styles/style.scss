@@ -62,3 +62,16 @@ body {
 #app {
   min-height: 100vh;
 }
+
+ul,
+li {
+  list-style: none;
+}
+
+ul,
+ol,
+li,
+p {
+  margin: 0;
+  padding: 0;
+}
