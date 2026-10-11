@@ -2,11 +2,11 @@
   <div class="form-card__main">
     <h1 class="form-card__title">{{title}}</h1>
 
-    {{> form id=formId fields=fields submitText=submitText}}
+    {{> form id=formId fields=fields submitText=submitText formId=link.page}}
   </div>
 
   <div class="form-card__actions">
-    {{> button variant="filled" text=submitText data=(obj page="chat")}}
+    {{> button variant="filled" text=submitText formId=link.page data=(obj page="chat")}}
     {{> link variant="text" page=link.page text=link.text className="link__center"}}
   </div>
 </div>

@@ -18,11 +18,11 @@
     border-bottom: var(--border-primary);
     padding-block: 0 var(--gap-8);
   } @else if $variant == send {
-    background-color: var(--color-accent-gray);
+    background-color: var(--color-gray-98);
     border-radius: var(--radius-30);
     padding: var(--gap-10) var(--gap-20);
   } @else if $variant == search {
-    background-color: var(--color-accent-gray);
+    background-color: var(--color-gray-98);
     border-radius: var(--radius-6);
     padding: var(--gap-6) var(--gap-10);
   } @else {

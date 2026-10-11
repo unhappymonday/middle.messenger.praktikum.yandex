@@ -1,0 +1,20 @@
+@use "./__footer/chat__footer.scss";
+@use "./__header/chat__header.scss";
+@use "./__body/chat__body.scss";
+
+.chat {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--gap-10);
+}
+
+.chat__system-message {
+  font-size: var(--font-24);
+}
+.chat__active {
+  flex-direction: column;
+  justify-content: space-between;
+}

@@ -23,6 +23,12 @@
     &:hover {
       color: color-mix(in srgb, var(--color-primary-highlight), black 10%);
     }
+  } @else if $variant == profile {
+    color: var(--color-secondary-accent);
+
+    &:hover {
+      color: color-mix(in srgb, var(--color-secondary-accent), black 10%);
+    }
   } @else {
     @error "Unknown button variant: #{$variant}";
   }

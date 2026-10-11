@@ -1,4 +1,6 @@
+import type { TFormField } from "@/components/types";
 import type { TFormCard } from "@/layout/types";
+import type { TSettingsMode } from "@/pages/types";
 
 export const AUTH_CARD: TFormCard = {
   title: "Вход",
@@ -43,3 +45,26 @@ export const REGISTRATION_CARD: TFormCard = {
     },
   ],
 };
+
+export const SETTINGS_FIELDS: Record<TSettingsMode, TFormField[]> = {
+  profile: [
+    { id: "email", label: "Почта", value: "pochta@yandex.ru", type: "email" },
+    { id: "login", label: "Логин", value: "ivanivanov" },
+    { id: "first_name", label: "Имя", value: "Иван" },
+    { id: "second_name", label: "Фамилия", value: "Иванов" },
+    { id: "display_name", label: "Имя в чате", value: "Иван" },
+    { id: "phone", label: "Телефон", value: "+7 (909) 967 30 30", type: "tel" },
+  ],
+  "edit-data": [],
+  "edit-password": [
+    { id: "oldPassword", label: "Старый пароль", value: "", type: "password" },
+    { id: "newPassword", label: "Новый пароль", value: "", type: "password" },
+    {
+      id: "repeatPassword",
+      label: "Повторите новый пароль",
+      value: "",
+      type: "password",
+    },
+  ],
+};
+SETTINGS_FIELDS["edit-data"] = SETTINGS_FIELDS.profile;

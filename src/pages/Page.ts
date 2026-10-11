@@ -16,4 +16,5 @@ export abstract class Page {
   }
 
   afterRender(_root: HTMLElement): void {}
+  destroy(): void {}
 }

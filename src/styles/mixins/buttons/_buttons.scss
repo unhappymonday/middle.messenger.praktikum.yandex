@@ -2,24 +2,29 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  background-color: transparent;
   cursor: pointer;
 
   border: 0;
+  @if $variant == filled {
+    background-color: var(--color-primary-accent);
+    border-radius: var(--radius-8);
+    padding-block: var(--gap-12);
 
-  background-color: var(--color-primary-accent);
-  border-radius: var(--radius-8);
-  padding-block: var(--gap-12);
+    font-size: var(--font-14);
+    line-height: var(--line-height-14);
+    color: var(--color-primary);
 
-  font-size: var(--font-14);
-  line-height: var(--line-height-14);
-  color: var(--color-primary);
-
-  &:hover {
-    background-color: color-mix(
-      in srgb,
-      var(--color-primary-accent),
-      black 10%
-    );
+    &:hover {
+      background-color: color-mix(
+        in srgb,
+        var(--color-primary-accent),
+        black 10%
+      );
+    }
+  } @else if variant == icon {
+    width: fit-content;
+    background-color: transparent;
   }
 
   &:disabled {

@@ -6,6 +6,7 @@ import {
   RegistrationPage,
   SettingsPage,
 } from "./pages/index";
+import { ErrorPage } from "@/pages/errorPage";
 
 export default class App {
   private currentPage: TPageName = "auth";
@@ -19,28 +20,38 @@ export default class App {
       registration: new RegistrationPage(navigate),
       chat: new ChatPage(navigate),
       settings: new SettingsPage(navigate),
+      notFound: new ErrorPage(navigate, "404", "Не туда попали"),
+      serverError: new ErrorPage(navigate, "500", "Мы уже фиксим"),
     };
+
+    this.root.addEventListener("click", this.handleNavigation);
   }
 
   render(): void {
     const page = this.pages[this.currentPage];
-    this.root.innerHTML = page.render();
-    this.attachNavigation();
-    page.afterRender(this.root);
+    try {
+      this.root.innerHTML = page.render();
+      page.afterRender(this.root);
+    } catch (e) {
+      console.error(e);
+      if (this.currentPage !== "serverError") {
+        this.currentPage = "serverError";
+        this.render();
+      }
+    }
   }
 
   changePage(page: TPageName): void {
-    this.currentPage = page;
+    this.pages[this.currentPage].destroy();
+    this.currentPage = page in this.pages ? page : "notFound";
     this.render();
   }
 
-  private attachNavigation(): void {
-    const links = this.root.querySelectorAll<HTMLElement>("[data-page]");
-    links.forEach((link) => {
-      link.addEventListener("click", (e) => {
-        e.preventDefault();
-        this.changePage(link.dataset.page as TPageName);
-      });
-    });
-  }
+  private handleNavigation = (e: Event) => {
+    const link = (e.target as HTMLElement).closest<HTMLElement>("[data-page]");
+    if (!link?.dataset.page) return;
+
+    e.preventDefault();
+    this.changePage(link.dataset.page as TPageName);
+  };
 }

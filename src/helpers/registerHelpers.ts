@@ -1,3 +1,4 @@
+import { formatClock } from "@/utils/date/date";
 import Handlebars from "handlebars";
 
 export function registerHelpers(): void {
@@ -30,4 +31,8 @@ export function registerHelpers(): void {
       return options.hash;
     },
   );
+
+  Handlebars.registerHelper("eq", (a, b) => a === b);
+
+  Handlebars.registerHelper("formatClock", formatClock);
 }
