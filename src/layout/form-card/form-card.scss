@@ -1,0 +1,34 @@
+.form-card {
+  min-height: 45rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--gap-30);
+
+  padding: var(--gap-30);
+  border-radius: var(--radius-12);
+  box-shadow: var(--shadow-primary);
+}
+
+.form-card__main {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-card__title {
+  text-align: center;
+  font-size: var(--font-20);
+  margin-block: 0 var(--gap-20);
+}
+
+.form-card__actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-14);
+}
+
+.link__center {
+  align-self: center;
+}

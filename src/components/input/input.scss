@@ -1,0 +1,4 @@
+@use "@/styles/mixins/modules" as *;
+@forward "./_search/input_search.scss";
+@forward "./_send/input_send.scss";
+@forward "./_text/input_text.scss";

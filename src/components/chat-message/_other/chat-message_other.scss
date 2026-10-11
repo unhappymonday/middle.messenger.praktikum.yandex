@@ -1,0 +1,9 @@
+.chat-message_other {
+  border-radius: 0 var(--radius-20) var(--radius-20) var(--radius-20);
+  background-color: var(--color-cream-98);
+  align-self: flex-start;
+}
+
+.chat-message_other .time {
+  color: var(--color-secondary-accent);
+}

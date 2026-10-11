@@ -1,0 +1,14 @@
+@use "./errorPage/page_error.scss";
+@use "./settingsPage/page_settings.scss";
+@use "./chatPage/page_chat.scss";
+
+.page {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.page--center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

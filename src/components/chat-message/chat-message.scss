@@ -1,0 +1,26 @@
+@use "./_other/chat-message_other.scss";
+@use "./_own/chat-message_own.scss";
+
+.chat-message {
+  position: relative;
+  padding: var(--gap-12);
+
+  max-width: 50%;
+
+  font-size: var(--font-14);
+  line-height: var(--line-height-14);
+}
+
+.chat-message__info {
+  float: right;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-4);
+
+  margin-left: var(--gap-12);
+  position: relative;
+  top: 2px;
+
+  font-size: var(--font-10);
+  line-height: var(--line-height-10);
+}

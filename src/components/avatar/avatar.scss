@@ -1,0 +1,7 @@
+@use "./__big/avatar__big.scss";
+@use "./__small/avatar__small.scss";
+
+.avatar {
+  background-color: var(--color-gray-95);
+  border-radius: 50%;
+}

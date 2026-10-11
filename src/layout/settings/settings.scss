@@ -1,0 +1,27 @@
+.settings,
+.settings__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings {
+  height: 100%;
+  margin: 0 auto;
+  gap: var(--gap-60);
+}
+
+.settings__actions {
+  width: 100%;
+}
+
+.settings__link {
+  width: 100%;
+  border-bottom: var(--border-secondary);
+  padding-bottom: var(--gap-10);
+}
+
+.button_save {
+  width: 100%;
+}
