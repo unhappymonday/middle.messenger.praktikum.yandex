@@ -1,0 +1,9 @@
+<div class="chat chat__{{#if isActiveChat}}active{{/if}}">
+  {{#if isActiveChat}}
+    {{> chat__header}}
+    {{> chat__body}}
+    {{> chat__footer}}
+  {{else}}
+    <div class="chat__system-message">Выберите чат чтобы отправить сообщение</div>
+  {{/if}}
+</div>

@@ -1,0 +1,16 @@
+.chat__header,
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.chat__header {
+  width: 100%;
+  padding-block: var(--gap-10);
+  justify-content: space-between;
+  border-bottom: var(--border-secondary);
+}
+
+.user-info {
+  gap: var(--gap-10);
+}

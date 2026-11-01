@@ -1,0 +1,12 @@
+<button
+  type="{{#if type}}{{type}}{{else}}button{{/if}}"
+  class="button button__{{variant}} {{#if className}}{{className}}{{/if}}"
+  {{#if id}}id="{{id}}"{{/if}}
+  {{#if disabled}}disabled{{/if}}
+  {{#if ariaLabel}}aria-label="{{ariaLabel}}"{{/if}}
+  {{#if formId}}form="{{formId}}"{{/if}}
+  {{dataAttrs data}}
+>
+  {{#if icon}}{{> (lookup . "icon")}}{{/if}}
+  {{#if text}}{{text}}{{/if}}
+</button>

@@ -1,0 +1,8 @@
+<div class="chat__body">
+  {{#each messageGroups}}
+    <div class="chat__date">{{label}}</div>
+    {{#each messages}}
+      {{> chat-message}}
+    {{/each}}
+  {{/each}}
+</div>

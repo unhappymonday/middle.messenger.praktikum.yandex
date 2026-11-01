@@ -1,0 +1,38 @@
+.chat-card,
+.chat-card__body {
+  display: flex;
+  align-items: flex-start;
+}
+
+.chat-card {
+  justify-content: space-between;
+  padding-block: var(--gap-12);
+
+  border-top: var(--border-secondary);
+}
+
+.chat-card__body {
+  gap: var(--gap-10);
+}
+
+.chat-card__info,
+.chat-card__main {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-card__main {
+  gap: var(--gap-4);
+
+  font-size: var(--font-size-13);
+}
+
+.chat-card__name {
+  font-weight: var(--semibold);
+}
+
+.chat-card__info {
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}

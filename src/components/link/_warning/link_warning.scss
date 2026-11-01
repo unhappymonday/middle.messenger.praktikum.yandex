@@ -1,0 +1,5 @@
+@use "@/styles/mixins/modules" as *;
+
+.link__warning {
+  @include link("warning");
+}

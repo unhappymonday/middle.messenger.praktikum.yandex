@@ -1,0 +1,16 @@
+.chip {
+  width: var(--gap-20);
+  height: var(--gap-20);
+  padding: var(--gap-4);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: var(--font-12);
+  line-height: var(--line-height-12);
+
+  border-radius: 50%;
+  background-color: var(--color-primary-accent);
+  color: var(--color-primary);
+}

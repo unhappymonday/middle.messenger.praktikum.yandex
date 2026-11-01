@@ -1,0 +1,20 @@
+.page_error {
+  align-items: center;
+  justify-content: center;
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-12);
+  text-align: center;
+}
+
+.error__code {
+  font-size: var(--font-24);
+}
+
+.error__text {
+  font-size: var(--font-12);
+}

@@ -1,0 +1,7 @@
+@use "./__label/form__label.scss";
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-16);
+}

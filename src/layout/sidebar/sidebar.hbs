@@ -1,0 +1,26 @@
+<aside class="sidebar sidebar__{{variant}}">
+  {{#if (eq variant "chat")}}
+    <div class="sidebar__header">
+      {{> link variant="profile" icon="arrow-icon" text="Профиль" page="settings" className="link__profile-sidebar"}}
+      {{> input variant="search" value="" placeholder="Поиск" className="input__search-sidebar"}}
+    </div>
+     <ul>
+      {{#each chats}}
+        <li data-action="chat" class="sidebar__item {{#if isActive}}sidebar__item_active{{/if}}" data-id="{{id}}" >
+          {{> chat-card
+            id=id
+            name=name
+            avatarSrc=avatarSrc
+            lastMessage=lastMessage
+            time=time
+            unreadCount=unreadCount
+            isOwnMessage=isOwnMessage
+            isActive=isActive
+          }}
+        </li>
+      {{/each}}
+     </ul>
+  {{else}}
+  {{> button variant="icon" icon="long-arrow-icon" data=(obj page="chat") arialabel="Назад"}}
+  {{/if}}
+</aside>
