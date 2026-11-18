@@ -3,6 +3,7 @@
 .input {
   &__text {
     width: 28rem;
+
     @include input(text);
   }
 
@@ -12,6 +13,7 @@
 
   &__send {
     width: 100%;
+
     @include input(send);
   }
 

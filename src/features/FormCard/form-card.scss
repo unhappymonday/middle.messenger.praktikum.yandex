@@ -1,11 +1,9 @@
 .form-card {
   min-height: 45rem;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: var(--gap-30);
-
   padding: var(--gap-30);
   border-radius: var(--radius-12);
   box-shadow: var(--shadow-primary);

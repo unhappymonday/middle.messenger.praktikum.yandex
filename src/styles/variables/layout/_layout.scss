@@ -5,12 +5,10 @@ $border-radius: (
   "20": 2rem,
   "30": 3rem,
 );
-
 $border-style: (
   "primary": 0.1rem solid var(--color-primary-accent),
   "secondary": 0.1rem solid var(--color-gray-92),
 );
-
 $box-shadow: (
-  "primary": 0 0 6px 0 rgba(0, 0, 0, 0.14),
+  "primary": 0 0 6px 0 rgb(0 0 0 / 14%),
 );

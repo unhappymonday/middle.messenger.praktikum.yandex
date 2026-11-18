@@ -30,6 +30,14 @@ npm install
 npm run dev
 ```
 
+## Проверка кода
+
+Для проверки TypeScript и SCSS используется ESLint и Stylelint.
+
+```bash
+npm run lint
+```
+
 ## Сборка
 
 Проверка типов и production-сборка в папку `dist`:

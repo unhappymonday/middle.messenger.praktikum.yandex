@@ -1,7 +1,7 @@
 @use "@/styles/mixins/modules" as *;
 
 .button {
-  @include button();
+  @include button;
 
   &__icon {
     @include button(icon);
