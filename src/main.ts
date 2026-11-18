@@ -1,7 +1,8 @@
-import { registerPartial } from "@/helpers/registerPartial";
-import { registerHelpers } from "@/helpers/registerHelpers";
+import { registerHelpers } from "@/shared/helpers/registerHelpers";
 import App from "./App";
 import "./styles/style.scss";
+import registerComponents from "@/app/registerAll";
+import { registerIcons } from "@/shared/helpers/registerIcons";
 
 function initApp(): void {
   const root = document.getElementById("app");
@@ -10,8 +11,9 @@ function initApp(): void {
     throw new Error("Элемент #app не найден");
   }
 
-  registerPartial();
+  registerIcons();
   registerHelpers();
+  registerComponents();
 
   const app = new App(root);
   app.render();

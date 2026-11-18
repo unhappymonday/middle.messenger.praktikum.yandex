@@ -1,0 +1,9 @@
+@use "@/styles/mixins/modules" as *;
+
+.button {
+  @include button();
+
+  &__icon {
+    @include button(icon);
+  }
+}

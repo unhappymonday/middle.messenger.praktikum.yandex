@@ -22,7 +22,7 @@
         black 10%
       );
     }
-  } @else if variant == icon {
+  } @else if $variant == icon {
     width: fit-content;
     background-color: transparent;
   }

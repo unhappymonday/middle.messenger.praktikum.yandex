@@ -1,4 +1,4 @@
-import type { TMessageGroup, TMessages } from "@/layout/types";
+import type { TMessageGroup, TMessages } from "@/features/types";
 import { MONTHS, WEEKDAYS } from "@/utils/constants";
 
 const startOfDay = (d: Date) =>

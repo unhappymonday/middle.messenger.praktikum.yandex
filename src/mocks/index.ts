@@ -1,4 +1,4 @@
-import type { TChatCard } from "@/layout/types";
+import type { TChatCard } from "@/features/types";
 
 export const CHAT_LIST: TChatCard[] = [
   {

@@ -1,7 +1,9 @@
-import type Block from "@/shared/Components/Block/Block";
-import type { TBlockProps } from "@/shared/Components/Block/types";
+import type {
+  IBlockComponent,
+  TBlockProps,
+} from "@/shared/Components/Block/types";
 
-export interface IComponentClass {
-  new (props: TBlockProps): Block<TBlockProps>;
+export interface IComponentClass<P extends TBlockProps = TBlockProps> {
   componentName: string;
+  new (props: P): IBlockComponent;
 }

@@ -2,28 +2,52 @@ import Handlebars from "handlebars";
 import type { HelperOptions } from "handlebars";
 import type { IComponentClass } from "@/shared/types";
 import type { TBlockProps } from "@/shared/Components/Block/types";
+import { getPlaceholderIds } from "@/shared/utils/getPlaceholderIds";
+import { takeChildren } from "@/shared/utils/takeChildren";
 
-export function registerComponent(Component: IComponentClass): void {
+let placeholderCounter = 0;
+
+export function registerComponent<P extends TBlockProps>(
+  Component: IComponentClass<P>,
+): void {
   Handlebars.registerHelper(
     Component.componentName,
     function (this: unknown, options: HelperOptions) {
-      const component = new Component(options.hash as TBlockProps);
+      const root = options.data.root as TBlockProps;
 
-      const data = options.data;
-      const root = data.root as TBlockProps;
+      root.__children = root.__children ?? [];
+      root.__refs = root.__refs ?? {};
 
-      if ("ref" in options.hash && typeof options.hash.ref === "string") {
-        root.__refs = root.__refs ?? {};
+      const isBlock = typeof options.fn === "function";
+
+      const content: unknown = isBlock
+        ? options.fn(this)
+        : options.hash.children;
+
+      const nestedChildren = takeChildren(root, getPlaceholderIds(content));
+
+      const componentProps = {
+        ...options.hash,
+        ...(isBlock
+          ? { children: new Handlebars.SafeString(String(content)) }
+          : {}),
+        __children: nestedChildren,
+      } as unknown as P;
+
+      const component = new Component(componentProps);
+
+      if (typeof options.hash.ref === "string" && options.hash.ref.length > 0) {
         root.__refs[options.hash.ref] = component.element();
       }
 
-      root.__children = root.__children ?? [];
+      const placeholderId = `component-${++placeholderCounter}`;
 
       root.__children.push({
         component,
+        placeholderId,
         embed(node: DocumentFragment) {
           const placeholder = node.querySelector(
-            `[data-component="${Component.componentName}"]`,
+            `[data-component-placeholder="${placeholderId}"]`,
           );
 
           if (!placeholder) {
@@ -37,7 +61,7 @@ export function registerComponent(Component: IComponentClass): void {
       });
 
       return new Handlebars.SafeString(
-        `<div data-component="${Component.componentName}"></div>`,
+        `<div data-component-placeholder="${placeholderId}"></div>`,
       );
     },
   );

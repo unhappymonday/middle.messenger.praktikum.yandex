@@ -1,0 +1,13 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--color-gray-94);
+
+  border-right: var(--border-secondary);
+}
+
+.sidebar__settings {
+  height: 100vh;
+  justify-content: center;
+}
