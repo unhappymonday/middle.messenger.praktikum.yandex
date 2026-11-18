@@ -7,7 +7,7 @@
     "start": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint . && stylelint \"**/*.scss\""
+    "lint": "npx tsc --noEmit && eslint . && stylelint \"**/*.scss\""
   },
   "devDependencies": {
     "@types/node": "^26.6.4",

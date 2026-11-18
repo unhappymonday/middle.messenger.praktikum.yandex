@@ -3,8 +3,9 @@ export type TMessageSender = "own" | "other";
 export type TMessages = {
   sender: TMessageSender;
   content: string;
-  attached?: string;
   sent_at: string;
+  attached?: string;
+  isOwnMessage?: boolean;
 };
 
 export type TChat = {
@@ -21,7 +22,6 @@ export type TChatCard = {
   chat: TChat;
   avatar?: string;
   unreadCount?: number;
-  isOwnMessage?: boolean;
   isActive?: boolean;
 };
 

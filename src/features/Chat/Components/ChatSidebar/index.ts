@@ -1,2 +1,2 @@
 export { default } from "./ChatSidebar";
-export type { IChatSidebarItem, IChatSidebarProps } from "./types";
+export type { IChatSidebarProps } from "./types";
