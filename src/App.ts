@@ -110,7 +110,7 @@ export default class App {
   private handleNavigation = (event: Event): void => {
     const target = event.target;
 
-    if (!(target instanceof HTMLElement)) {
+    if (!(target instanceof Element)) {
       return;
     }
 

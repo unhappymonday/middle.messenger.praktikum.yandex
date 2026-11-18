@@ -5,7 +5,9 @@
   {{#if disabled}}disabled{{/if}}
   {{#if ariaLabel}}aria-label="{{ariaLabel}}"{{/if}}
   {{#if formId}}form="{{formId}}"{{/if}}
-  {{dataAttrs data}}
+  {{#if data.page}}
+    data-page="{{data.page}}"
+  {{/if}}
 >
   {{#if icon}}{{> (lookup . "icon")}}{{/if}}
   {{#if text}}{{text}}{{/if}}

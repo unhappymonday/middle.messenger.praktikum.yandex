@@ -22,6 +22,7 @@ export type TChatCard = {
   avatar?: string;
   unreadCount?: number;
   isOwnMessage?: boolean;
+  isActive?: boolean;
 };
 
 export interface IChatMessageGroup {

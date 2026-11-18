@@ -13,12 +13,8 @@ export default class ChatSidebar extends Block<IChatSidebarProps> {
 
     this.events = {
       click: (event) => {
-        const item = (event.target as HTMLElement).closest<HTMLElement>(
-          "[data-action='chat']",
-        );
-
-        console.log("Найден элемент:", item);
-        console.log("ID чата:", item?.dataset.id);
+        const target = event.target as HTMLElement;
+        const item = target.closest<HTMLElement>("[data-id]");
 
         if (item?.dataset.id) {
           this.props.onChatClick?.(item.dataset.id);

@@ -28,17 +28,37 @@ export default class ChatPage extends Block<IChatPageProps> {
   }
 
   private handleChatClick = (chatId: string): void => {
-    console.log("[ChatPage] Получен ID:", chatId);
+    const selectedChat = this.props.chats.find((chat) => chat.id === chatId);
+
+    if (!selectedChat) {
+      console.error("[ChatPage] Чат не найден:", chatId);
+      return;
+    }
 
     const updatedChats = this.props.chats.map((chat) => ({
       ...chat,
       isActive: chat.id === chatId,
     }));
 
-    console.log("[ChatPage] Обновлённые чаты:", updatedChats);
+    const messageGroups: IChatMessageGroup[] = [
+      {
+        label: "",
+        messages: selectedChat.chat.messages,
+      },
+    ];
 
     this.setProps({
       chats: updatedChats,
+      isActiveChat: true,
+      userName: selectedChat.chat.userName,
+      avatar: selectedChat.chat.avatar,
+      messageGroups,
+    });
+
+    console.log("[ChatPage] Активный чат:", {
+      isActiveChat: this.props.isActiveChat,
+      userName: this.props.userName,
+      messages: this.props.messageGroups,
     });
   };
 }
