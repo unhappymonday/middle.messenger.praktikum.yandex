@@ -8,8 +8,13 @@
         value=value
         placeholder=placeholder
         disabled=disabled
+        invalid=error
         variant="text"
       }}
+
+      {{#if error}}
+        <div class="form__error">{{error}}</в>
+      {{/if}}
     {{/Label}}
   {{/each}}
 </form>

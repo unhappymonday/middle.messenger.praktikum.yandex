@@ -14,4 +14,8 @@
     width: 100%;
     @include input(send);
   }
+
+  &_invalid {
+    border-bottom: 1px solid var(--color-secondary-highlight, #e53935);
+  }
 }

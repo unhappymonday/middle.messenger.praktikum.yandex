@@ -1,34 +1,7 @@
 import Block from "@/shared/Components/Block/Block";
-import type { TBlockProps, TEventList } from "@/shared/Components/Block/types";
-
+import type { IInputProps } from "@/shared/Components/Input/types";
 import template from "./input.hbs?raw";
 import "./input.scss";
-
-export type TInputType =
-  | "text"
-  | "email"
-  | "password"
-  | "number"
-  | "search"
-  | "tel"
-  | "url";
-
-export type TInputVariant = "text" | "search" | "send";
-
-export interface IInputProps extends TBlockProps {
-  type?: TInputType;
-  variant?: TInputVariant;
-  className?: string;
-  id?: string;
-  name?: string;
-  value?: string | number;
-  disabled?: boolean;
-  placeholder?: string;
-  required?: boolean;
-  readonly?: boolean;
-  autocomplete?: string;
-  events?: TEventList;
-}
 
 export default class Input extends Block<IInputProps> {
   protected template = template;

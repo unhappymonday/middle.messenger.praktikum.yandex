@@ -3,3 +3,14 @@
   flex-direction: column;
   gap: var(--gap-16);
 }
+
+.form__error {
+  display: block;
+  max-width: 28rem;
+  color: var(--color-secondary-highlight, #e53935);
+  font-size: var(--font-12);
+  line-height: var(--line-height-14);
+  white-space: normal;
+  overflow-wrap: break-word;
+  box-sizing: border-box;
+}

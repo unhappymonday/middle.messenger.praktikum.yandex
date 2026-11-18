@@ -7,7 +7,19 @@ export interface IFormField {
   value?: string;
   placeholder?: string;
   disabled?: boolean;
+  error?: string;
 }
+
+export type TValidationErrors = Record<string, string>;
+
+export type TValidationField =
+  | "first_name"
+  | "second_name"
+  | "login"
+  | "email"
+  | "password"
+  | "phone"
+  | "message";
 
 export type TFormValues = Record<string, string>;
 
