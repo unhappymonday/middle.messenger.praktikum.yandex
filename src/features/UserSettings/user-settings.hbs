@@ -1,0 +1,41 @@
+<section class="settings">
+  <div class="settings__header">
+    {{Avatar avatar=avatar type="big"}}
+    {{#if (eq mode "profile")}}
+      <h1 class="settings__name">{{displayName}}</h1>
+    {{/if}}
+  </div>
+
+  {{Form formId=formId fields=fields onSubmit=onSubmit}}
+
+  {{#if (eq mode "profile")}}
+    <ul class="settings__actions">
+      <li>{{Link
+          className="settings__link"
+          variant="text"
+          text="Изменить данные"
+          action="edit-data"
+        }}</li>
+      <li>{{Link
+          className="settings__link"
+          variant="text"
+          text="Изменить пароль"
+          action="edit-password"
+        }}</li>
+      <li>{{Link
+          className="settings__link"
+          variant="warning"
+          text="Выйти"
+          page="auth"
+        }}</li>
+    </ul>
+  {{else}}
+    {{Button
+      type="submit"
+      variant="filled"
+      className="button_save"
+      formId=formId
+      text="Сохранить"
+    }}
+  {{/if}}
+</section>

@@ -1,9 +1,6 @@
 @use "sass:map";
 @use "fonts/font";
 @use "variables/modules" as *;
-@use "@/components/components.scss";
-@use "@/layout/layout.scss";
-@use "@/pages/page.scss";
 
 *,
 *::before,
@@ -74,4 +71,15 @@ li,
 p {
   margin: 0;
   padding: 0;
+}
+
+.page {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.page--center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

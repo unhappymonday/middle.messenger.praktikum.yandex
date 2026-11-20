@@ -2,13 +2,10 @@
   width: fit-content;
   display: block;
   padding: var(--gap-4);
-
   cursor: pointer;
-
   font-size: var(--font-12);
   line-height: var(--line-height-12);
   text-decoration: none;
-
   border: 0;
 
   @if $variant == text {

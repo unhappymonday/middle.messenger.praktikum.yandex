@@ -1,6 +1,0 @@
-@use "@/styles/mixins/modules" as *;
-
-.input__text {
-  @include input("text");
-  width: 28rem;
-}

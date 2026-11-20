@@ -1,0 +1,13 @@
+<div class="chat__body">
+  {{#each messageGroups}}
+    <div class="chat__date">{{this.label}}</div>
+
+    {{#each this.messages}}
+      {{ChatMessage
+        content=this.content
+        sender=this.sender
+        sent_at=this.sent_at
+      }}
+    {{/each}}
+  {{/each}}
+</div>

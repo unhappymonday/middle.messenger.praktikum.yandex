@@ -1,4 +1,4 @@
-export { AuthPage } from "./authPage/index";
-export { ChatPage } from "./chatPage/index";
-export { RegistrationPage } from "./registrationPage/index";
-export { SettingsPage } from "./settingsPage/index";
+export { default as AuthPage } from "./AuthPage";
+export { default as ChatPage } from "./ChatPage";
+export { default as UserSettingsPage } from "./UserSettingsPage";
+export { default as ErrorPage } from "./ErrorPage";

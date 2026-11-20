@@ -1,0 +1,17 @@
+<div class="form-card">
+  <div class="form-card__main">
+    <h1 class="form-card__title">{{title}}</h1>
+
+    {{Form formId=formId fields=fields onSubmit=onSubmit}}
+  </div>
+
+  <div class="form-card__actions">
+    {{Button variant="filled" type="submit" text=submitText formId=formId}}
+    {{Link
+      variant="text"
+      page=link.page
+      text=link.text
+      className="link__center"
+    }}
+  </div>
+</div>

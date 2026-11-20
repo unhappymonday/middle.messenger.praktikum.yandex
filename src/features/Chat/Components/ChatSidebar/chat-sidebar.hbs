@@ -1,0 +1,38 @@
+<aside class="sidebar sidebar__chat">
+  <div class="sidebar__header">
+    {{Link
+      variant="profile"
+      icon="arrow-icon"
+      text="Профиль"
+      page="settings"
+      className="link__profile-sidebar"
+    }}
+
+    {{Input
+      variant="search"
+      value=""
+      placeholder="Поиск"
+      className="input__search-sidebar"
+    }}
+  </div>
+
+  <ul>
+  {{#each chats}}
+    <li
+      class="sidebar__item{{#if isActive}} sidebar__item_active{{/if}}"
+      data-id="{{id}}"
+    >
+      {{ChatCard
+        id=id
+        name=name
+        avatar=avatar
+        lastMessage=lastMessage
+        time=time
+        unreadCount=unreadCount
+        isOwnMessage=isOwnMessage
+        isActive=isActive
+      }}
+    </li>
+  {{/each}}
+</ul>
+</aside>

@@ -1,6 +1,0 @@
-@use "@/styles/mixins/modules" as *;
-@use "./_icon/button_icon.scss";
-
-.button__filled {
-  @include button("filled");
-}

@@ -1,4 +1,4 @@
-import type { TMessageGroup, TMessages } from "@/layout/types";
+import type { IChatMessageGroup, TMessages } from "@/features/Chat/types";
 import { MONTHS, WEEKDAYS } from "@/utils/constants";
 
 const startOfDay = (d: Date) =>
@@ -34,8 +34,10 @@ export const formatGroupLabel = (date: Date, now = new Date()) => {
   return formatFullDate(date);
 };
 
-export const groupMessagesByDate = (messages: TMessages[]): TMessageGroup[] => {
-  const groups = new Map<string, TMessageGroup>();
+export const groupMessagesByDate = (
+  messages: TMessages[],
+): IChatMessageGroup[] => {
+  const groups = new Map<string, IChatMessageGroup>();
 
   for (const message of messages) {
     const date = new Date(message.sent_at);

@@ -1,0 +1,9 @@
+<div class="chat chat__{{#if isActiveChat}}active{{/if}}">
+  {{#if isActiveChat}}
+    {{ChatHeader avatar=avatar userName=userName}}
+    {{ChatBody messageGroups=messageGroups}}
+    {{ChatFooter onSend=onSend}}
+  {{else}}
+    <div class="chat__system-message">Выберите чат чтобы отправить сообщение</div>
+  {{/if}}
+</div>

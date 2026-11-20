@@ -1,0 +1,11 @@
+.label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-8);
+  min-width: 0;
+}
+
+.label__text {
+  color: var(--color-secondary-accent);
+}

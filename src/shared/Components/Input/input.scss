@@ -1,0 +1,23 @@
+@use "@/styles/mixins/modules" as *;
+
+.input {
+  &__text {
+    width: 28rem;
+
+    @include input(text);
+  }
+
+  &__search {
+    @include input(search);
+  }
+
+  &__send {
+    width: 100%;
+
+    @include input(send);
+  }
+
+  &_invalid {
+    border-bottom: 1px solid var(--color-secondary-highlight, #e53935);
+  }
+}

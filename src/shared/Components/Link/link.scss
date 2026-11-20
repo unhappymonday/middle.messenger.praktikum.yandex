@@ -1,0 +1,15 @@
+@use "@/styles/mixins/modules" as *;
+
+.link {
+  &__text {
+    @include link(text);
+  }
+
+  &__warning {
+    @include link(warning);
+  }
+
+  &__profile {
+    @include link(profile);
+  }
+}

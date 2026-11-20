@@ -1,0 +1,13 @@
+<input
+  ref="input"
+  type="{{#if type}}{{type}}{{else}}text{{/if}}"
+  class="form__input {{#if variant}}input__{{variant}}{{/if}} {{#if className}}{{className}}{{/if}}{{#if invalid}} input_invalid{{/if}}"
+  {{#if id}}id="{{id}}"{{/if}}
+  {{#if name}}name="{{name}}"{{/if}}
+  {{#if (hasValue value)}}value="{{value}}"{{/if}}
+  {{#if disabled}}disabled{{/if}}
+  {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}
+  {{#if required}}required{{/if}}
+  {{#if readonly}}readonly{{/if}}
+  {{#if autocomplete}}autocomplete="{{autocomplete}}"{{/if}}
+>
