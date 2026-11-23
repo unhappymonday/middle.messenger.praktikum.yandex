@@ -22,11 +22,11 @@
           text="Изменить пароль"
           action="edit-password"
         }}</li>
-      <li>{{Link
-          className="settings__link"
-          variant="warning"
+      <li>{{Button
+          variant="text"
+          className="button_warning"
           text="Выйти"
-          page="auth"
+          onClick=onLogout
         }}</li>
     </ul>
   {{else}}

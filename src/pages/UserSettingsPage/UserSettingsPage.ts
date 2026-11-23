@@ -3,6 +3,7 @@ import type { IUserSettingsProps } from "@/features/UserSettings/types";
 
 import Block from "@/shared/Components/Block/Block";
 import template from "./user-settings-page.hbs?raw";
+import "./user-settings-page.scss";
 
 export type IUserSettingsPageProps = TBlockProps & IUserSettingsProps;
 

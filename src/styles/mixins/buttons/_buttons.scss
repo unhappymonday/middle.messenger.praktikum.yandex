@@ -32,6 +32,17 @@
     &:hover {
       background: transparent;
     }
+  } @else if $variant == text {
+    display: block;
+    border: none;
+    border-radius: 0;
+    padding-block: var(--gap-12);
+    font-size: var(--font-12);
+    line-height: var(--line-height-12);
+
+    &:hover {
+      background: transparent;
+    }
   } @else if $variant == icon {
     width: fit-content;
     background-color: transparent !important;

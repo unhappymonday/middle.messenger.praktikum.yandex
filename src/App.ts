@@ -3,7 +3,9 @@ import ChatPage from "@/pages/ChatPage";
 import ErrorPage from "@/pages/ErrorPage";
 import { loginConfig, signinConfig } from "@/pages/AuthPage/config";
 import { UserSettingsPage } from "@/pages";
-import { SETTINGS_FIELDS } from "@/pages/UserSettingsPage/settingsConfig";
+import { PASSWORD_FIELDS } from "@/pages/UserSettingsPage/settingsConfig";
+import userController from "@/services/controllers/UserController";
+import store from "@/services/store/Store";
 import Router from "@/services/router/Router";
 import { ROUTES } from "@/services/config/api";
 import AuthController from "@/services/controllers/AuthController";
@@ -12,6 +14,10 @@ import type { IBlockComponent } from "@/shared/Components/Block/types";
 import ChatsController from "@/services/controllers/ChatsController";
 import { connect } from "@/services/store/helpers/connect";
 import { mapChatsToProps } from "@/pages/ChatPage/helpers";
+import { getProfileFields } from "@/pages/UserSettingsPage/helpers";
+import type { TUserDTO } from "@/services/api/Users/types";
+import type { TFormValues } from "@/shared/Components/Form";
+import { getAvatarUrl } from "@/utils/getAvatarUrl";
 
 const ConnectedChatPage = connect(mapChatsToProps)(ChatPage);
 
@@ -22,7 +28,7 @@ export default class App {
     this.router = new Router(rootQuery);
   }
 
-  public start(): void {
+  public async start(): Promise<void> {
     this.router
       .use(ROUTES.LOGIN, () => this.createLoginPage(), "guest")
       .use(ROUTES.SIGN_UP, () => this.createSignUpPage(), "guest")
@@ -36,6 +42,8 @@ export default class App {
         ROUTES.SERVER_ERROR,
         () => new ErrorPage({ code: "500", text: "Мы уже фиксим" }),
       );
+
+    await AuthController.fetchUser();
 
     this.router.start();
   }
@@ -96,28 +104,106 @@ export default class App {
   }
 
   private createSettingsPage(): UserSettingsPage {
+    const user = store.getState().user as TUserDTO;
+
+    if (!user) {
+      throw new Error("User is not authorized");
+    }
+
+    let mode: "profile" | "edit-data" | "edit-password" = "profile";
+
     const page = new UserSettingsPage({
-      mode: "profile",
+      mode,
       formId: "profile",
-      displayName: "Иван",
-      fields: SETTINGS_FIELDS.profile,
+      displayName: user.display_name ?? user.first_name,
+      avatar: getAvatarUrl(user.avatar),
+      fields: getProfileFields(user, true),
 
-      onEditData: () =>
+      onEditData: () => {
+        const currentUser = store.getState().user as TUserDTO;
+
+        mode = "edit-data";
+
         page.setProps({
-          mode: "edit-data",
+          mode,
           formId: "edit-data",
-          fields: SETTINGS_FIELDS["edit-data"],
-        }),
+          fields: getProfileFields(currentUser),
+          error: undefined,
+        });
+      },
 
-      onEditPassword: () =>
+      onEditPassword: () => {
+        mode = "edit-password";
+
         page.setProps({
-          mode: "edit-password",
+          mode,
           formId: "edit-password",
-          fields: SETTINGS_FIELDS["edit-password"],
-        }),
+          fields: PASSWORD_FIELDS,
+          error: undefined,
+        });
+      },
 
-      onSubmit: (values) => {
-        console.log("settings", values);
+      onSubmit: async (values: TFormValues) => {
+        let error: string | null = null;
+
+        if (mode === "edit-data") {
+          error = await userController.updateProfile({
+            first_name: values.first_name,
+            second_name: values.second_name,
+            display_name: values.display_name,
+            login: values.login,
+            email: values.email,
+            phone: values.phone,
+          });
+        }
+
+        if (mode === "edit-password") {
+          error = await userController.updatePassword({
+            oldPassword: values.oldPassword,
+            newPassword: values.newPassword,
+          });
+        }
+
+        if (error) {
+          page.setProps({ error });
+          return;
+        }
+
+        const updatedUser = store.getState().user as TUserDTO;
+
+        mode = "profile";
+
+        page.setProps({
+          mode,
+          formId: "profile",
+          displayName: updatedUser.display_name ?? updatedUser.first_name,
+          avatar: getAvatarUrl(updatedUser.avatar),
+          fields: getProfileFields(updatedUser, true),
+          error: undefined,
+        });
+      },
+
+      onAvatarChange: async (file: File) => {
+        const error = await userController.updateAvatar(file);
+
+        if (error) {
+          page.setProps({ error });
+          return;
+        }
+
+        const updatedUser = store.getState().user as TUserDTO;
+
+        page.setProps({
+          avatar: getAvatarUrl(updatedUser.avatar),
+          error: undefined,
+        });
+      },
+
+      onLogout: async () => {
+        const error = await AuthController.logout();
+        if (error) {
+          page.setProps({ error });
+        }
       },
     });
 

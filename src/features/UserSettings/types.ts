@@ -9,7 +9,10 @@ export interface IUserSettingsProps extends TBlockProps {
   fields: IFormField[];
   avatar?: string;
   displayName?: string;
+  error?: string;
   onSubmit?: (values: TFormValues) => void;
   onEditData?: () => void;
   onEditPassword?: () => void;
+  onAvatarChange?: (file: File) => void;
+  onLogout?: () => void | Promise<void>;
 }

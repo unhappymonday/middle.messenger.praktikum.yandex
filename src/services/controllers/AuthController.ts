@@ -74,7 +74,9 @@ class AuthController {
 
   public async logout(): Promise<string | null> {
     try {
+      console.log("LOGOUT API: sending POST");
       await this.api.logout();
+      console.log("LOGOUT API: success");
 
       store.setState("user", null);
       store.setState("chats", []);
@@ -82,9 +84,9 @@ class AuthController {
       store.setState("activeChatUsers", []);
 
       this.router.go(ROUTES.LOGIN);
-
       return null;
     } catch (error) {
+      console.error("LOGOUT API: error", error);
       return handleApiError(error);
     }
   }

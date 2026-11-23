@@ -10,4 +10,8 @@
   &__contained {
     @include button(contained);
   }
+
+  &__text {
+    @include button(text);
+  }
 }
