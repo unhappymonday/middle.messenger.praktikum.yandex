@@ -85,12 +85,13 @@ export default class App {
     return new ConnectedChatPage({
       chats: [],
       onSend: (message) => console.log(message),
-      onCreateChat: async (title) =>
-        report(await ChatsController.createChat(title)),
-      onDeleteChat: async (id) => report(await ChatsController.deleteChat(id)),
-      onAddUser: async (login) =>
+      onCreateChat: (title) => ChatsController.createChat(title),
+      onDeleteChat: async (id: number) =>
+        report(await ChatsController.deleteChat(id)),
+      onAddUser: async (login: string) =>
         report(await ChatsController.addUserByLogin(login)),
-      onRemoveUser: async (id) => report(await ChatsController.removeUser(id)),
+      onRemoveUser: async (id: number) =>
+        report(await ChatsController.removeUser(id)),
     });
   }
 

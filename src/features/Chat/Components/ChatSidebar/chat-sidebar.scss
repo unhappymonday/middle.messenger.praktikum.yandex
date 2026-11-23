@@ -6,6 +6,12 @@
   border-right: var(--border-secondary);
 }
 
+.header__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .sidebar__header {
   display: flex;
   flex-direction: column;
@@ -28,4 +34,8 @@
 
 .link__profile-sidebar {
   align-self: flex-end;
+}
+
+.button_create-chat {
+  padding: 0 !important;
 }

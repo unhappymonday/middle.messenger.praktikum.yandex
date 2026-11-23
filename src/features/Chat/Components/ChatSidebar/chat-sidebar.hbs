@@ -1,5 +1,13 @@
 <aside class="sidebar sidebar__chat">
   <div class="sidebar__header">
+    <div class="header__actions">
+      {{Button
+        id="create-chat-button"
+        variant="icon"
+        icon="plus-icon"
+        className="button_create-chat"
+        type="button"
+      }}
     {{Link
       variant="profile"
       icon="arrow-icon"
@@ -7,6 +15,7 @@
       page="settings"
       className="link__profile-sidebar"
     }}
+    </div>
 
     {{Input
       variant="search"

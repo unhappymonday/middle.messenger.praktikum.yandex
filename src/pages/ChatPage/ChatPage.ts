@@ -4,6 +4,7 @@ import template from "./chat-page.hbs?raw";
 import type { IChatMessageGroup, TChatCard } from "@/features/Chat/types";
 
 import "./chat-page.scss";
+import { CreateChatModal } from "@/features/Chat/Components";
 
 export interface IChatPageProps extends TBlockProps {
   chats: TChatCard[];
@@ -13,10 +14,14 @@ export interface IChatPageProps extends TBlockProps {
   messageGroups?: IChatMessageGroup[];
   onChatClick?: (chatId: string) => void;
   onSend?: (message: string) => void;
+  onCreateChat?: (title: string) => Promise<string | null>;
+  onCreateChatClick?: () => void;
 }
 
 export default class ChatPage extends Block<IChatPageProps> {
   protected template = template;
+
+  private createChatModal: CreateChatModal | null = null;
 
   constructor(props: IChatPageProps) {
     super(props);
@@ -24,7 +29,13 @@ export default class ChatPage extends Block<IChatPageProps> {
     this.props = {
       ...this.props,
       onChatClick: this.handleChatClick,
+      onCreateChatClick: this.handleCreateChatClick,
     };
+  }
+
+  public override destroy(): void {
+    this.closeCreateChatModal();
+    super.destroy();
   }
 
   private handleChatClick = (chatId: string): void => {
@@ -61,4 +72,23 @@ export default class ChatPage extends Block<IChatPageProps> {
       messages: this.props.messageGroups,
     });
   };
+
+  private handleCreateChatClick = (): void => {
+    if (this.createChatModal) {
+      return;
+    }
+
+    this.createChatModal = new CreateChatModal({
+      onSubmit: async (title) =>
+        (await this.props.onCreateChat?.(title)) ?? null,
+      onClose: () => this.closeCreateChatModal(),
+    });
+
+    this.createChatModal.open();
+  };
+
+  private closeCreateChatModal(): void {
+    this.createChatModal?.destroy();
+    this.createChatModal = null;
+  }
 }

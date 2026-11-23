@@ -11,6 +11,11 @@ export default class ChatSidebar extends Block<IChatSidebarProps> {
   constructor(props: IChatSidebarProps) {
     super(props);
 
+    this.props = {
+      ...this.props,
+      createChatEvents: { click: this.handleCreateChatClick },
+    };
+
     this.events = {
       click: (event) => {
         const target = event.target as HTMLElement;
@@ -22,4 +27,8 @@ export default class ChatSidebar extends Block<IChatSidebarProps> {
       },
     };
   }
+
+  private handleCreateChatClick = (): void => {
+    this.props.onCreateChatClick?.();
+  };
 }

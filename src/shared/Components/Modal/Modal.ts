@@ -12,6 +12,11 @@ export default class Modal extends Block<IModalProps> {
   constructor(props: IModalProps) {
     super(props);
 
+    this.props = {
+      ...this.props,
+      closeEvents: { click: () => this.close() },
+    };
+
     this.events = {
       click: this.handleClick,
       submit: this.handleSubmit,

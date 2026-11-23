@@ -1,8 +1,8 @@
-import type { ICreateChatModalProps } from "@/pages/ChatPage/Components/CreateChatModal/types";
 import { Modal } from "@/shared/Components";
 import Block from "@/shared/Components/Block/Block";
 
 import template from "./create-chat-modal.hbs?raw";
+import type { ICreateChatModalProps } from "@/features/Chat/Components/CreateChatModal/types";
 
 export default class CreateChatModal extends Block<ICreateChatModalProps> {
   protected template = template;

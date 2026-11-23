@@ -23,11 +23,15 @@
     }
   } @else if $variant == contained {
     border: var(--border-secondary);
-    border-radius: var(--radius-8);
+    border-radius: var(--radius-12);
     padding-block: var(--gap-12);
     font-size: var(--font-14);
     line-height: var(--line-height-14);
     color: var(--color-secondary);
+
+    &:hover {
+      background: transparent;
+    }
   } @else if $variant == icon {
     width: fit-content;
     background-color: transparent !important;
