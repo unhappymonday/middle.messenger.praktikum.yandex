@@ -1,10 +1,14 @@
 import type { IFormCardConfig } from "@/features/FormCard/types";
+import { ROUTES } from "@/services/config/api";
 
 export const loginConfig: IFormCardConfig = {
   title: "Вход",
   formId: "login",
   submitText: "Авторизоваться",
-  link: { page: "registration", text: "Нет аккаунта?" },
+  link: {
+    page: ROUTES.SIGN_UP,
+    text: "Нет аккаунта?",
+  },
   fields: [
     { id: "login", label: "Логин", type: "text" },
     { id: "password", label: "Пароль", type: "password" },
@@ -15,7 +19,10 @@ export const signinConfig: IFormCardConfig = {
   title: "Регистрация",
   formId: "signin",
   submitText: "Зарегистрироваться",
-  link: { page: "auth", text: "Войти" },
+  link: {
+    page: ROUTES.LOGIN,
+    text: "Уже есть аккаунт? Войти",
+  },
   fields: [
     { id: "email", label: "Почта", type: "email" },
     { id: "login", label: "Логин", type: "text" },

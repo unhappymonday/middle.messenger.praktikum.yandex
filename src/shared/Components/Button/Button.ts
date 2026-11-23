@@ -4,7 +4,7 @@ import type { TBlockProps, TEventList } from "@/shared/Components/Block/types";
 import template from "./button.hbs?raw";
 import "./button.scss";
 
-export type TButtonVariant = "filled" | "icon";
+export type TButtonVariant = "filled" | "icon" | "contained";
 
 export interface IButtonProps extends TBlockProps {
   type?: "button" | "submit" | "reset";

@@ -1,0 +1,18 @@
+<div class="create-chat-modal">
+  {{#Modal
+    title="Создать чат"
+    actionText="Создать"
+    formId="create-chat-form"
+    onSubmit=onModalSubmit
+    onClose=onModalClose
+  }}
+    <form id="create-chat-form" class="modal__form">
+      {{Input
+        name="title"
+        placeholder="Название чата"
+        required=true
+        autocomplete="off"
+      }}
+    </form>
+  {{/Modal}}
+</div>

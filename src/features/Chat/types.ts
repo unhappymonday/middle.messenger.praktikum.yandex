@@ -20,6 +20,7 @@ export type TChatCard = {
   lastMessage: string;
   time: string;
   chat: TChat;
+  isOwnMessage?: boolean;
   avatar?: string;
   unreadCount?: number;
   isActive?: boolean;

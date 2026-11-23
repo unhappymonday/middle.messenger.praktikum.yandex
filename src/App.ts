@@ -1,81 +1,97 @@
-import type { IBlockComponent } from "@/shared/Components/Block/types";
-import type { TPageName } from "@/pages/types";
 import AuthPage from "@/pages/AuthPage";
 import ChatPage from "@/pages/ChatPage";
 import ErrorPage from "@/pages/ErrorPage";
 import { loginConfig, signinConfig } from "@/pages/AuthPage/config";
 import { UserSettingsPage } from "@/pages";
-import { CHAT_LIST } from "@/mocks";
 import { SETTINGS_FIELDS } from "@/pages/UserSettingsPage/settingsConfig";
+import Router from "@/services/router/Router";
+import { ROUTES } from "@/services/config/api";
+import AuthController from "@/services/controllers/AuthController";
+import type { TSignInRequest, TSignUpRequest } from "@/services/api/Auth/types";
+import type { IBlockComponent } from "@/shared/Components/Block/types";
+import ChatsController from "@/services/controllers/ChatsController";
+import { connect } from "@/services/store/helpers/connect";
+import { mapChatsToProps } from "@/pages/ChatPage/helpers";
+
+const ConnectedChatPage = connect(mapChatsToProps)(ChatPage);
 
 export default class App {
-  private currentPage: TPageName = "auth";
-  private page: IBlockComponent | null = null;
-  private readonly factories: Record<TPageName, () => IBlockComponent>;
+  private readonly router: Router;
 
-  constructor(private readonly root: HTMLElement) {
-    this.factories = {
-      auth: () =>
-        new AuthPage({
-          ...loginConfig,
-          onSubmit: (v) => {
-            console.log("login", v);
-            this.changePage("chat");
-          },
-        }),
-      registration: () =>
-        new AuthPage({
-          ...signinConfig,
-          onSubmit: (v) => {
-            console.log("signin", v);
-            this.changePage("chat");
-          },
-        }),
-      chat: () => this.createChatPage(),
-      settings: () => this.createSettingsPage(),
-      notFound: () => new ErrorPage({ code: "404", text: "Не туда попали" }),
-      serverError: () => new ErrorPage({ code: "500", text: "Мы уже фиксим" }),
+  constructor(rootQuery: string = "#app") {
+    this.router = new Router(rootQuery);
+  }
+
+  public start(): void {
+    this.router
+      .use(ROUTES.LOGIN, () => this.createLoginPage(), "guest")
+      .use(ROUTES.SIGN_UP, () => this.createSignUpPage(), "guest")
+      .use(ROUTES.MESSENGER, () => this.createChatPage(), "private")
+      .use(ROUTES.SETTINGS, () => this.createSettingsPage(), "private")
+      .use(
+        ROUTES.NOT_FOUND,
+        () => new ErrorPage({ code: "404", text: "Не туда попали" }),
+      )
+      .use(
+        ROUTES.SERVER_ERROR,
+        () => new ErrorPage({ code: "500", text: "Мы уже фиксим" }),
+      );
+
+    this.router.start();
+  }
+
+  private createLoginPage(): AuthPage {
+    return new AuthPage({
+      ...loginConfig,
+      onSubmit: async (values) => {
+        const error = await AuthController.signIn(values as TSignInRequest);
+
+        if (error) {
+          console.error(error);
+        }
+      },
+    });
+  }
+
+  private createSignUpPage(): AuthPage {
+    return new AuthPage({
+      ...signinConfig,
+      onSubmit: async (values) => {
+        const data: TSignUpRequest = {
+          first_name: values.first_name,
+          second_name: values.second_name,
+          login: values.login,
+          email: values.email,
+          password: values.password,
+          phone: values.phone,
+        };
+
+        const error = await AuthController.signUp(data);
+
+        if (error) {
+          console.error(error);
+        }
+      },
+    });
+  }
+
+  private createChatPage(): IBlockComponent {
+    const report = (error: string | null): void => {
+      if (error) {
+        console.error(error);
+      }
     };
 
-    this.root.addEventListener("click", this.handleNavigation);
-  }
-
-  render(): void {
-    this.page?.destroy();
-    this.page = null;
-
-    try {
-      this.page = this.factories[this.currentPage]();
-      this.root.replaceChildren(this.page.element());
-    } catch (error) {
-      console.error("Ошибка при отображении страницы:", error);
-
-      if (this.currentPage !== "serverError") {
-        this.currentPage = "serverError";
-        this.render();
-      }
-    }
-  }
-
-  changePage(page: TPageName): void {
-    this.currentPage = page in this.factories ? page : "notFound";
-    this.render();
-  }
-
-  destroy(): void {
-    this.root.removeEventListener("click", this.handleNavigation);
-    this.page?.destroy();
-  }
-
-  private createChatPage(): ChatPage {
-    const page: ChatPage = new ChatPage({
-      chats: CHAT_LIST,
-      isActiveChat: false,
-      onChatClick: () => page.setProps({ isActiveChat: true }),
+    return new ConnectedChatPage({
+      chats: [],
       onSend: (message) => console.log(message),
+      onCreateChat: async (title) =>
+        report(await ChatsController.createChat(title)),
+      onDeleteChat: async (id) => report(await ChatsController.deleteChat(id)),
+      onAddUser: async (login) =>
+        report(await ChatsController.addUserByLogin(login)),
+      onRemoveUser: async (id) => report(await ChatsController.removeUser(id)),
     });
-
-    return page;
   }
 
   private createSettingsPage(): UserSettingsPage {
@@ -106,22 +122,4 @@ export default class App {
 
     return page;
   }
-
-  private handleNavigation = (event: Event): void => {
-    const target = event.target;
-
-    if (!(target instanceof Element)) {
-      return;
-    }
-
-    const link = target.closest<HTMLElement>("[data-page]");
-    const page = link?.dataset.page;
-
-    if (!page) {
-      return;
-    }
-
-    event.preventDefault();
-    this.changePage(page as TPageName);
-  };
 }
