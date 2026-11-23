@@ -85,10 +85,10 @@ export default class App {
 
   private createChatPage(): IBlockComponent {
     const report = (error: string | null): void => {
-      if (error) {
-        console.error(error);
-      }
+      if (error) console.error(error);
     };
+
+    void ChatsController.fetchChats().then(report);
 
     return new ConnectedChatPage({
       chats: [],
@@ -96,10 +96,8 @@ export default class App {
       onCreateChat: (title) => ChatsController.createChat(title),
       onDeleteChat: async (id: number) =>
         report(await ChatsController.deleteChat(id)),
-      onAddUser: async (login: string) =>
-        report(await ChatsController.addUserByLogin(login)),
-      onRemoveUser: async (id: number) =>
-        report(await ChatsController.removeUser(id)),
+      onAddUser: (login: string) => ChatsController.addUserByLogin(login),
+      onRemoveUser: (id: number) => ChatsController.removeUser(id),
     });
   }
 

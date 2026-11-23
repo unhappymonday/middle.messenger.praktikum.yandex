@@ -1,0 +1,16 @@
+<div class="select">
+  <select
+    class="select__field"
+    name="{{name}}"
+    {{#if required}}required{{/if}}
+    {{#if disabled}}disabled{{/if}}
+  >
+    <option value="" selected disabled>
+      {{placeholder}}
+    </option>
+
+    {{#each options}}
+      <option value="{{value}}">{{label}}</option>
+    {{/each}}
+  </select>
+</div>
