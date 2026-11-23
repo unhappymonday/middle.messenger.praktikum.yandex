@@ -20,4 +20,12 @@
     height: 100%;
     object-fit: cover;
   }
+
+  &-editable {
+    cursor: pointer;
+
+    &:hover {
+      filter: brightness(0.8);
+    }
+  }
 }

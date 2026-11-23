@@ -1,6 +1,11 @@
 <section class="settings">
   <div class="settings__header">
-    {{Avatar avatar=avatar type="big"}}
+    {{Avatar
+      avatar=avatar
+      type="big"
+      isAvatarHasChanged=true
+      onAvatarChange=onAvatarChange
+    }}
     {{#if (eq mode "profile")}}
       <h1 class="settings__name">{{displayName}}</h1>
     {{/if}}
