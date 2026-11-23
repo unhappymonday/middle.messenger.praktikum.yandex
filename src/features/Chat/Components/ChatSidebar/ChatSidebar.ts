@@ -29,6 +29,6 @@ export default class ChatSidebar extends Block<IChatSidebarProps> {
   }
 
   private handleCreateChatClick = (): void => {
-    this.props.onCreateChatClick?.();
+    this.props.onCreateChat?.();
   };
 }
