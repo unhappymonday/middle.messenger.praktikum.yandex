@@ -1,7 +1,7 @@
 <a
-  href="{{#if href}}{{href}}{{else}}#{{/if}}"
+  href="{{#if href}}{{href}}{{else}}{{#if page}}{{page}}{{else}}#{{/if}}{{/if}}"
   class="link link__{{variant}}{{#if className}} {{className}}{{/if}}"
-  {{#if page}}data-page="{{page}}"{{/if}}
+  {{#if page}}data-link="{{page}}"{{/if}}
   {{#if action}}data-action="{{action}}"{{/if}}
 >
   <span>{{text}}</span>

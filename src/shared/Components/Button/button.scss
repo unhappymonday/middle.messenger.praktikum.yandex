@@ -6,4 +6,12 @@
   &__icon {
     @include button(icon);
   }
+
+  &__contained {
+    @include button(contained);
+  }
+
+  &__text {
+    @include button(text);
+  }
 }

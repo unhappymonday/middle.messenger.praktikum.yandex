@@ -1,5 +1,14 @@
-<div class="avatar avatar__{{type}}">
+<div class="avatar avatar__{{type}} {{#if isAvatarHasChanged}}avatar-editable{{/if}}">
   {{#if avatar}}
     <img class="avatar-img" src="{{avatar}}" alt="Аватар" />
+  {{/if}}
+  {{#if isAvatarHasChanged}}
+    <input
+      ref="fileInput"
+      class="avatar__input"
+      type="file"
+      accept="image/jpeg,image/png,image/gif,image/webp"
+      hidden
+    />
   {{/if}}
 </div>

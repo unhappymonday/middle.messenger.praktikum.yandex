@@ -1,5 +1,9 @@
 <main class="page chat_page page--center">
-  {{ChatSidebar chats=chats onChatClick=onChatClick}}
+  {{ChatSidebar
+    chats=chats
+    onChatClick=onChatClick
+    onCreateChatClick=onCreateChatClick
+  }}
 
   {{Chat
     isActiveChat=isActiveChat
@@ -7,5 +11,7 @@
     avatar=avatar
     messageGroups=messageGroups
     onSend=onSend
+    onAddUser=onAddUserClick
+    onRemoveUser=onRemoveUserClick
   }}
 </main>

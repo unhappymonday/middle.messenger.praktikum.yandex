@@ -8,6 +8,7 @@ export const VALIDATION_RULES: Record<TValidationField, RegExp> = {
   password: /^(?=.*[A-Z])(?=.*\d).{8,40}$/,
   phone: /^\+?\d{10,15}$/,
   message: /\S/,
+  title: /\S/,
 };
 
 export const VALIDATION_MESSAGES: Record<TValidationField, string> = {
@@ -18,6 +19,7 @@ export const VALIDATION_MESSAGES: Record<TValidationField, string> = {
   password: "От 8 до 40 символов, минимум одна заглавная буква и цифра",
   phone: "Введите от 10 до 15 цифр. Плюс допускается в начале",
   message: "Сообщение не должно быть пустым",
+  title: "Название чата не должно быть пустым",
 };
 
 export const FIELD_ALIASES: Record<string, TValidationField> = {

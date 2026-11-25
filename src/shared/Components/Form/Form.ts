@@ -101,7 +101,7 @@ export default class Form extends Block<IFormProps> {
 
   private getInitialValues(fields: IFormField[]): TFormValues {
     return Object.fromEntries(
-      fields.map((field) => [field.id, field.value ?? ""]),
+      (fields ?? []).map((field) => [field.id, field.value ?? ""]),
     );
   }
 

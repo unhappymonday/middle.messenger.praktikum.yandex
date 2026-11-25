@@ -1,127 +1,210 @@
-import type { IBlockComponent } from "@/shared/Components/Block/types";
-import type { TPageName } from "@/pages/types";
 import AuthPage from "@/pages/AuthPage";
 import ChatPage from "@/pages/ChatPage";
 import ErrorPage from "@/pages/ErrorPage";
 import { loginConfig, signinConfig } from "@/pages/AuthPage/config";
 import { UserSettingsPage } from "@/pages";
-import { CHAT_LIST } from "@/mocks";
-import { SETTINGS_FIELDS } from "@/pages/UserSettingsPage/settingsConfig";
+import { PASSWORD_FIELDS } from "@/pages/UserSettingsPage/settingsConfig";
+import userController from "@/services/controllers/UserController";
+import store from "@/services/store/Store";
+import Router from "@/services/router/Router";
+import { ROUTES } from "@/services/config/api";
+import AuthController from "@/services/controllers/AuthController";
+import type { TSignInRequest, TSignUpRequest } from "@/services/api/Auth/types";
+import type { IBlockComponent } from "@/shared/Components/Block/types";
+import ChatsController from "@/services/controllers/ChatsController";
+import { connect } from "@/services/store/helpers/connect";
+import { mapChatsToProps } from "@/pages/ChatPage/helpers";
+import { getProfileFields } from "@/pages/UserSettingsPage/helpers";
+import type { TUserDTO } from "@/services/api/Users/types";
+import type { TFormValues } from "@/shared/Components/Form";
+import { getAvatarUrl } from "@/utils/getAvatarUrl";
+
+const ConnectedChatPage = connect(mapChatsToProps)(ChatPage);
 
 export default class App {
-  private currentPage: TPageName = "auth";
-  private page: IBlockComponent | null = null;
-  private readonly factories: Record<TPageName, () => IBlockComponent>;
+  private readonly router: Router;
 
-  constructor(private readonly root: HTMLElement) {
-    this.factories = {
-      auth: () =>
-        new AuthPage({
-          ...loginConfig,
-          onSubmit: (v) => {
-            console.log("login", v);
-            this.changePage("chat");
-          },
-        }),
-      registration: () =>
-        new AuthPage({
-          ...signinConfig,
-          onSubmit: (v) => {
-            console.log("signin", v);
-            this.changePage("chat");
-          },
-        }),
-      chat: () => this.createChatPage(),
-      settings: () => this.createSettingsPage(),
-      notFound: () => new ErrorPage({ code: "404", text: "Не туда попали" }),
-      serverError: () => new ErrorPage({ code: "500", text: "Мы уже фиксим" }),
+  constructor(rootQuery: string = "#app") {
+    this.router = new Router(rootQuery);
+  }
+
+  public async start(): Promise<void> {
+    this.router
+      .use(ROUTES.LOGIN, () => this.createLoginPage(), "guest")
+      .use(ROUTES.SIGN_UP, () => this.createSignUpPage(), "guest")
+      .use(ROUTES.MESSENGER, () => this.createChatPage(), "private")
+      .use(ROUTES.SETTINGS, () => this.createSettingsPage(), "private")
+      .use(
+        ROUTES.NOT_FOUND,
+        () => new ErrorPage({ code: "404", text: "Не туда попали" }),
+      )
+      .use(
+        ROUTES.SERVER_ERROR,
+        () => new ErrorPage({ code: "500", text: "Мы уже фиксим" }),
+      );
+
+    await AuthController.fetchUser();
+
+    this.router.start();
+  }
+
+  private createLoginPage(): AuthPage {
+    return new AuthPage({
+      ...loginConfig,
+      onSubmit: async (values) => {
+        const error = await AuthController.signIn(values as TSignInRequest);
+
+        if (error) {
+          console.error(error);
+        }
+      },
+    });
+  }
+
+  private createSignUpPage(): AuthPage {
+    return new AuthPage({
+      ...signinConfig,
+      onSubmit: async (values) => {
+        const data: TSignUpRequest = {
+          first_name: values.first_name,
+          second_name: values.second_name,
+          login: values.login,
+          email: values.email,
+          password: values.password,
+          phone: values.phone,
+        };
+
+        const error = await AuthController.signUp(data);
+
+        if (error) {
+          console.error(error);
+        }
+      },
+    });
+  }
+
+  private createChatPage(): IBlockComponent {
+    const report = (error: string | null): void => {
+      if (error) console.error(error);
     };
 
-    this.root.addEventListener("click", this.handleNavigation);
-  }
+    void ChatsController.fetchChats().then(report);
 
-  render(): void {
-    this.page?.destroy();
-    this.page = null;
-
-    try {
-      this.page = this.factories[this.currentPage]();
-      this.root.replaceChildren(this.page.element());
-    } catch (error) {
-      console.error("Ошибка при отображении страницы:", error);
-
-      if (this.currentPage !== "serverError") {
-        this.currentPage = "serverError";
-        this.render();
-      }
-    }
-  }
-
-  changePage(page: TPageName): void {
-    this.currentPage = page in this.factories ? page : "notFound";
-    this.render();
-  }
-
-  destroy(): void {
-    this.root.removeEventListener("click", this.handleNavigation);
-    this.page?.destroy();
-  }
-
-  private createChatPage(): ChatPage {
-    const page: ChatPage = new ChatPage({
-      chats: CHAT_LIST,
-      isActiveChat: false,
-      onChatClick: () => page.setProps({ isActiveChat: true }),
+    return new ConnectedChatPage({
+      chats: [],
       onSend: (message) => console.log(message),
+      onCreateChat: (title) => ChatsController.createChat(title),
+      onDeleteChat: async (id: number) =>
+        report(await ChatsController.deleteChat(id)),
+      onAddUser: (login: string) => ChatsController.addUserByLogin(login),
+      onRemoveUser: (id: number) => ChatsController.removeUser(id),
     });
-
-    return page;
   }
 
   private createSettingsPage(): UserSettingsPage {
+    const user = store.getState().user as TUserDTO;
+
+    if (!user) {
+      throw new Error("User is not authorized");
+    }
+
+    let mode: "profile" | "edit-data" | "edit-password" = "profile";
+
     const page = new UserSettingsPage({
-      mode: "profile",
+      mode,
       formId: "profile",
-      displayName: "Иван",
-      fields: SETTINGS_FIELDS.profile,
+      displayName: user.display_name ?? user.first_name,
+      avatar: getAvatarUrl(user.avatar),
+      fields: getProfileFields(user, true),
 
-      onEditData: () =>
+      onEditData: () => {
+        const currentUser = store.getState().user as TUserDTO;
+
+        mode = "edit-data";
+
         page.setProps({
-          mode: "edit-data",
+          mode,
           formId: "edit-data",
-          fields: SETTINGS_FIELDS["edit-data"],
-        }),
+          fields: getProfileFields(currentUser),
+          error: undefined,
+        });
+      },
 
-      onEditPassword: () =>
+      onEditPassword: () => {
+        mode = "edit-password";
+
         page.setProps({
-          mode: "edit-password",
+          mode,
           formId: "edit-password",
-          fields: SETTINGS_FIELDS["edit-password"],
-        }),
+          fields: PASSWORD_FIELDS,
+          error: undefined,
+        });
+      },
 
-      onSubmit: (values) => {
-        console.log("settings", values);
+      onSubmit: async (values: TFormValues) => {
+        let error: string | null = null;
+
+        if (mode === "edit-data") {
+          error = await userController.updateProfile({
+            first_name: values.first_name,
+            second_name: values.second_name,
+            display_name: values.display_name,
+            login: values.login,
+            email: values.email,
+            phone: values.phone,
+          });
+        }
+
+        if (mode === "edit-password") {
+          error = await userController.updatePassword({
+            oldPassword: values.oldPassword,
+            newPassword: values.newPassword,
+          });
+        }
+
+        if (error) {
+          page.setProps({ error });
+          return;
+        }
+
+        const updatedUser = store.getState().user as TUserDTO;
+
+        mode = "profile";
+
+        page.setProps({
+          mode,
+          formId: "profile",
+          displayName: updatedUser.display_name ?? updatedUser.first_name,
+          avatar: getAvatarUrl(updatedUser.avatar),
+          fields: getProfileFields(updatedUser, true),
+          error: undefined,
+        });
+      },
+
+      onAvatarChange: async (file: File) => {
+        const error = await userController.updateAvatar(file);
+
+        if (error) {
+          page.setProps({ error });
+          return;
+        }
+
+        const updatedUser = store.getState().user as TUserDTO;
+
+        page.setProps({
+          avatar: getAvatarUrl(updatedUser.avatar),
+          error: undefined,
+        });
+      },
+
+      onLogout: async () => {
+        const error = await AuthController.logout();
+        if (error) {
+          page.setProps({ error });
+        }
       },
     });
 
     return page;
   }
-
-  private handleNavigation = (event: Event): void => {
-    const target = event.target;
-
-    if (!(target instanceof Element)) {
-      return;
-    }
-
-    const link = target.closest<HTMLElement>("[data-page]");
-    const page = link?.dataset.page;
-
-    if (!page) {
-      return;
-    }
-
-    event.preventDefault();
-    this.changePage(page as TPageName);
-  };
 }

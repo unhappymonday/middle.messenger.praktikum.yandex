@@ -3,5 +3,26 @@
     {{Avatar avatar=avatar type="small"}}
     <h1>{{userName}}</h1>
   </div>
-  {{Button variant="icon" icon="dots-icon"}}
+  <div class="chat__menu-wrapper">
+    {{Button variant="icon" icon="dots-icon" onClick=onMenuClick}}
+
+    {{#if showMenu}}
+      <div class="chat__user-menu">
+        {{Button
+          className="chat__user-menu-item"
+          type="button"
+          variant="text"
+          onClick=onAddUser
+          text="Добавить пользователя"
+        }}
+        {{Button
+          className="chat__user-menu-item"
+          type="button"
+          variant="text"
+          onClick=onRemoveUser
+          text="Удалить пользователя"
+        }}
+      </div>
+    {{/if}}
+  </div>
 </div>

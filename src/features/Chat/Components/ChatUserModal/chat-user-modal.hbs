@@ -1,0 +1,27 @@
+<div class="chat-user-modal">
+  {{#Modal
+    title=title
+    actionText=actionText
+    formId=formId
+    onSubmit=onModalSubmit
+    onClose=onModalClose
+  }}
+    <form id="{{formId}}" class="modal__form">
+      {{#if (eq mode "add")}}
+        {{Input
+          name="login"
+          placeholder="Логин пользователя"
+          required=true
+          autocomplete="off"
+        }}
+      {{else}}
+        {{Select
+          name="userId"
+          options=users
+          placeholder="Выберите пользователя"
+          required=true
+        }}
+      {{/if}}
+    </form>
+  {{/Modal}}
+</div>

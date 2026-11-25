@@ -11,6 +11,8 @@ export interface IChatProps extends TBlockProps {
   avatar?: string;
   messageGroups?: IChatMessageGroup[];
   onSend?: (message: string) => void;
+  onAddUser?: () => void;
+  onRemoveUser?: () => void;
 }
 
 export default class Chat extends Block<IChatProps> {

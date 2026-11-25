@@ -6,6 +6,8 @@ import {
   ChatHeader,
   ChatMessage,
   ChatSidebar,
+  ChatUserModal,
+  CreateChatModal,
 } from "@/features/Chat/Components";
 import { registerComponent } from "@/shared/helpers/registerComponent";
 import type { IComponentClass } from "@/shared/types";
@@ -20,6 +22,8 @@ export default function registerChatComponents(): void {
       ChatSidebar,
       ChatMessage,
       Chat,
+      CreateChatModal,
+      ChatUserModal,
     ] as IComponentClass[]
   ).forEach(registerComponent);
 }

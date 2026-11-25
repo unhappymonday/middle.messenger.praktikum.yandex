@@ -1,0 +1,43 @@
+.modal {
+  width: min(40rem, calc(100% - 3.2rem));
+  padding: 0;
+  border: none;
+  border-radius: 12px;
+  background: var(--color-primary);
+
+  &::backdrop {
+    background: rgb(0 0 0 / 45%);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-8);
+    position: relative;
+    padding: var(--gap-40) var(--gap-30);
+  }
+
+  &__title {
+    font-size: var(--font-20);
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-8);
+  }
+
+  &__alert {
+    margin: 0;
+    color: var(--color-secondary-highlight);
+    font-size: var(--font-size-12);
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: var(--gap-8);
+    margin-top: var(--gap-12);
+  }
+}
