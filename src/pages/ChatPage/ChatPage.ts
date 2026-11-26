@@ -21,6 +21,7 @@ export interface IChatPageProps extends TBlockProps {
   onCreateChatClick?: () => void;
   onAddUserClick?: () => void;
   onRemoveUserClick?: () => void;
+  onAvatarChange?: (file: File) => void;
 }
 
 export default class ChatPage extends Block<IChatPageProps> {

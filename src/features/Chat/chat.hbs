@@ -1,6 +1,6 @@
 <div class="chat chat__{{#if isActiveChat}}active{{/if}}">
   {{#if isActiveChat}}
-    {{ChatHeader avatar=avatar userName=userName onAddUser=onAddUser onRemoveUser=onRemoveUser}}
+    {{ChatHeader avatar=avatar userName=userName onAddUser=onAddUser onRemoveUser=onRemoveUser onAvatarChange=onAvatarChange}}
     {{ChatBody messageGroups=messageGroups}}
     {{ChatFooter onSend=onSend}}
   {{else}}

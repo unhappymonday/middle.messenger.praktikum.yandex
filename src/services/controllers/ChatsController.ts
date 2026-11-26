@@ -1,6 +1,7 @@
 import ChatsAPI from "@/services/api/Chats/ChatsAPI";
 import UserAPI from "@/services/api/Users/UserAPI";
 import { handleApiError } from "@/services/controllers/helpers/handleApiError";
+import MessagesController from "@/services/controllers/MessagesController";
 import store from "@/services/store/Store";
 
 class ChatsController {
@@ -34,8 +35,10 @@ class ChatsController {
       await this.api.deleteChat({ chatId });
 
       if (this.getActiveChatId() === chatId) {
+        MessagesController.disconnect();
         store.setState("activeChatId", null);
         store.setState("activeChatUsers", []);
+        store.setState("messages", []);
       }
 
       return await this.fetchChats();
@@ -47,7 +50,12 @@ class ChatsController {
   public async selectChat(chatId: number): Promise<string | null> {
     store.setState("activeChatId", chatId);
 
-    return this.fetchUsers(chatId);
+    const [usersError, socketError] = await Promise.all([
+      this.fetchUsers(chatId),
+      MessagesController.connect(chatId),
+    ]);
+
+    return usersError ?? socketError;
   }
 
   public async fetchUsers(chatId: number): Promise<string | null> {
