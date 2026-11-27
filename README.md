@@ -38,6 +38,12 @@ npm run dev
 npm run lint
 ```
 
+```bash
+npm run test
+
+npm run test:watch
+```
+
 ## Сборка
 
 Проверка типов и production-сборка в папку `dist`:
