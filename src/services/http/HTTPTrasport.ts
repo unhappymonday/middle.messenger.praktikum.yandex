@@ -44,7 +44,9 @@ export default class HTTPTransport {
 
     const query =
       isGet && data && !(data instanceof FormData) ? queryStringify(data) : "";
-    const url = `${this.baseUrl}${path}${query}`;
+    const url = query
+      ? `${this.baseUrl}${path}?${query}`
+      : `${this.baseUrl}${path}`;
 
     return new Promise<T>((resolve, reject) => {
       const xhr = new XMLHttpRequest();

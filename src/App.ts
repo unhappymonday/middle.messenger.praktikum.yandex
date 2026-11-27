@@ -89,7 +89,7 @@ export default class App {
       if (error) console.error(error);
     };
 
-    void ChatsController.fetchChats().then(report);
+    void ChatsController.init().then(report);
 
     return new ConnectedChatPage({
       chats: [],

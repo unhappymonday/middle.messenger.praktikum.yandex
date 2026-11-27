@@ -6,6 +6,7 @@ import { handleApiError } from "@/services/controllers/helpers/handleApiError";
 import MessagesController from "@/services/controllers/MessagesController";
 import { HTTPError } from "@/services/http/HTTPError";
 import Router from "@/services/router/Router";
+import { activeChatStorage } from "@/services/storage/activeChatStorage";
 import store from "@/services/store/Store";
 
 class AuthController {
@@ -76,6 +77,11 @@ class AuthController {
   public async logout(): Promise<string | null> {
     try {
       await this.api.logout();
+      const userId = (store.getState().user as TUserDTO | null)?.id;
+
+      if (userId !== undefined) {
+        activeChatStorage.clear(userId);
+      }
 
       MessagesController.disconnect();
 

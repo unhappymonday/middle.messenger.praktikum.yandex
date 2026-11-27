@@ -1,13 +1,45 @@
 import ChatsAPI from "@/services/api/Chats/ChatsAPI";
+import type { TChatDTO } from "@/services/api/Chats/types";
+import type { TUserDTO } from "@/services/api/Users/types";
 import UserAPI from "@/services/api/Users/UserAPI";
 import { handleApiError } from "@/services/controllers/helpers/handleApiError";
 import MessagesController from "@/services/controllers/MessagesController";
+import { activeChatStorage } from "@/services/storage/activeChatStorage";
 import store from "@/services/store/Store";
 
 class ChatsController {
   private readonly api = new ChatsAPI();
 
   private readonly userApi = new UserAPI();
+
+  public async init(): Promise<string | null> {
+    const error = await this.fetchChats();
+
+    if (error || this.getActiveChatId() !== null) {
+      return error;
+    }
+
+    const userId = this.getUserId();
+
+    if (userId === null) {
+      return null;
+    }
+
+    const savedId = activeChatStorage.get(userId);
+
+    if (savedId === null) {
+      return null;
+    }
+
+    const chats = store.getState().chats as TChatDTO[];
+
+    if (!chats.some((chat) => chat.id === savedId)) {
+      activeChatStorage.clear(userId);
+      return null;
+    }
+
+    return this.selectChat(savedId);
+  }
 
   public async fetchChats(): Promise<string | null> {
     try {
@@ -39,6 +71,12 @@ class ChatsController {
         store.setState("activeChatId", null);
         store.setState("activeChatUsers", []);
         store.setState("messages", []);
+
+        const userId = this.getUserId();
+
+        if (userId !== null) {
+          activeChatStorage.clear(userId);
+        }
       }
 
       return await this.fetchChats();
@@ -50,12 +88,22 @@ class ChatsController {
   public async selectChat(chatId: number): Promise<string | null> {
     store.setState("activeChatId", chatId);
 
+    const userId = this.getUserId();
+
+    if (userId !== null) {
+      activeChatStorage.set(userId, chatId);
+    }
+
     const [usersError, socketError] = await Promise.all([
       this.fetchUsers(chatId),
       MessagesController.connect(chatId),
     ]);
 
     return usersError ?? socketError;
+  }
+
+  private getUserId(): number | null {
+    return (store.getState().user as TUserDTO | null)?.id ?? null;
   }
 
   public async fetchUsers(chatId: number): Promise<string | null> {
