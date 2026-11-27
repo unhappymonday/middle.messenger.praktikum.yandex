@@ -9,11 +9,13 @@
     "preview": "vite preview",
     "lint": "npx tsc --noEmit && eslint . && stylelint \"**/*.scss\"",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@types/node": "^26.6.4",
     "eslint": "^10.15.0",
+    "husky": "^9.1.7",
     "jest": "^30.5.2",
     "jsdom": "^31.0.1",
     "sass-embedded": "^1.105.1",
