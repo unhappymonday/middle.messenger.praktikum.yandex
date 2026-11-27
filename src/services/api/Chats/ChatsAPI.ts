@@ -9,6 +9,7 @@ import type {
   TChatUserDTO,
   TUnreadCountResponse,
   TChatUsersRequest,
+  IChatTokenResponse,
 } from "@/services/api/Chats/types";
 import BaseAPI from "@/services/http/BaseApi";
 
@@ -54,5 +55,9 @@ export default class ChatsAPI extends BaseAPI {
 
   public removeUsers(data: TChatUsersRequest): Promise<void> {
     return this.http.delete<void>("/users", { data });
+  }
+
+  public getToken(chatId: number): Promise<IChatTokenResponse> {
+    return this.http.post<IChatTokenResponse>(`/token/${chatId}`);
   }
 }

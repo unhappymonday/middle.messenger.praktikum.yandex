@@ -63,6 +63,15 @@ export default class Router {
     window.history.forward();
   }
 
+  public stop(): void {
+    window.removeEventListener("popstate", this.handlePopState);
+    document.removeEventListener("click", this.handleLinkClick);
+
+    this.currentRoute?.leave();
+    this.currentRoute = null;
+    Router.instance = undefined;
+  }
+
   private getRoute(pathname: string): Route | undefined {
     return this.routes.find((route) => route.match(pathname));
   }

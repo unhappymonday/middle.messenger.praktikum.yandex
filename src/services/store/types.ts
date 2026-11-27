@@ -1,4 +1,8 @@
-import type { TChatDTO, TChatUserDTO } from "@/services/api/Chats/types";
+import type {
+  IChatMessageDTO,
+  TChatDTO,
+  TChatUserDTO,
+} from "@/services/api/Chats/types";
 import type { TUserDTO } from "@/services/api/Users/types";
 import type {
   IBlockComponent,
@@ -16,4 +20,5 @@ export type TStoreState = {
   chats: TChatDTO[];
   activeChatId: number | null;
   activeChatUsers: TChatUserDTO[];
+  messages: IChatMessageDTO[];
 };

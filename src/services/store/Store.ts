@@ -8,6 +8,7 @@ class Store {
     chats: [],
     activeChatId: null,
     activeChatUsers: [],
+    messages: [],
   };
 
   private readonly listeners = new Set<TListener>();

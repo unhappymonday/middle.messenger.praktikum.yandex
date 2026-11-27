@@ -1,6 +1,11 @@
 <div class="chat__header">
   <div class="user-info">
-    {{Avatar avatar=avatar type="small"}}
+    {{Avatar
+      avatar=avatar
+      type="small"
+      isAvatarHasChanged=true
+      onAvatarChange=onAvatarChange
+    }}
     <h1>{{userName}}</h1>
   </div>
   <div class="chat__menu-wrapper">

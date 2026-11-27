@@ -18,6 +18,7 @@ import { getProfileFields } from "@/pages/UserSettingsPage/helpers";
 import type { TUserDTO } from "@/services/api/Users/types";
 import type { TFormValues } from "@/shared/Components/Form";
 import { getAvatarUrl } from "@/utils/getAvatarUrl";
+import MessagesController from "@/services/controllers/MessagesController";
 
 const ConnectedChatPage = connect(mapChatsToProps)(ChatPage);
 
@@ -88,16 +89,19 @@ export default class App {
       if (error) console.error(error);
     };
 
-    void ChatsController.fetchChats().then(report);
+    void ChatsController.init().then(report);
 
     return new ConnectedChatPage({
       chats: [],
-      onSend: (message) => console.log(message),
+      onSend: (message: string) =>
+        report(MessagesController.sendMessage(message)),
       onCreateChat: (title) => ChatsController.createChat(title),
       onDeleteChat: async (id: number) =>
         report(await ChatsController.deleteChat(id)),
       onAddUser: (login: string) => ChatsController.addUserByLogin(login),
       onRemoveUser: (id: number) => ChatsController.removeUser(id),
+      onAvatarChange: async (file: File) =>
+        report(await ChatsController.updateAvatar(file)),
     });
   }
 

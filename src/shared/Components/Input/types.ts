@@ -14,6 +14,8 @@ export type TInputVariant = "text" | "search" | "send";
 export interface IInputProps extends TBlockProps {
   type?: TInputType;
   variant?: TInputVariant;
+  multiline?: boolean;
+  rows?: number;
   className?: string;
   id?: string;
   name?: string;

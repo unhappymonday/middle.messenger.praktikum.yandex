@@ -58,3 +58,29 @@ export type TChatUsersRequest = {
 export type TUnreadCountResponse = {
   unread_count: number;
 };
+
+export interface IChatTokenResponse {
+  token: string;
+}
+
+export interface IChatFileDTO {
+  id: number;
+  user_id: number;
+  path: string;
+  filename: string;
+  content_type: string;
+  content_size: number;
+  upload_date: string;
+}
+
+export type TChatMessageType = "message" | "file" | "sticker";
+
+export interface IChatMessageDTO {
+  id?: number | string;
+  chat_id?: number;
+  time: string;
+  type: TChatMessageType;
+  user_id: number | string;
+  content: string;
+  file?: IChatFileDTO;
+}

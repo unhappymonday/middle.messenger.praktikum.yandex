@@ -1,5 +1,5 @@
-import type { IChatMessageGroup, TChatCard } from "@/features/Chat";
-import type { TChatDTO } from "@/services/api/Chats/types";
+import type { IChatMessageGroup, TChatCard, TMessages } from "@/features/Chat";
+import type { IChatMessageDTO, TChatDTO } from "@/services/api/Chats/types";
 import type { TStoreState } from "@/services/store/types";
 import { getAvatarUrl } from "@/utils/getAvatarUrl";
 import type { Indexed } from "@/utils/types";
@@ -46,12 +46,71 @@ function toCard(
   };
 }
 
+function formatDateLabel(date: Date): string {
+  return date.toLocaleDateString("ru-RU", {
+    day: "numeric",
+    month: "long",
+  });
+}
+
+function formatMessageTime(date: Date): string {
+  return date.toLocaleTimeString("ru-RU", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function toMessage(
+  message: IChatMessageDTO,
+  currentUserId: number | undefined,
+): TMessages {
+  const isOwn =
+    currentUserId !== undefined &&
+    String(message.user_id) === String(currentUserId);
+
+  const date = new Date(message.time);
+  const isValidDate = !Number.isNaN(date.getTime());
+
+  return {
+    sender: isOwn ? "own" : "other",
+    isOwnMessage: isOwn,
+    content:
+      message.type === "message"
+        ? message.content
+        : (message.file?.filename ?? ""),
+    sent_at: isValidDate ? formatMessageTime(date) : "",
+  };
+}
+
+function toMessageGroups(
+  messages: IChatMessageDTO[],
+  currentUserId: number | undefined,
+): IChatMessageGroup[] {
+  const groups: IChatMessageGroup[] = [];
+
+  messages.forEach((message) => {
+    const date = new Date(message.time);
+    const label = Number.isNaN(date.getTime()) ? "" : formatDateLabel(date);
+    const last = groups[groups.length - 1];
+    const item = toMessage(message, currentUserId);
+
+    if (last && last.label === label) {
+      last.messages.push(item);
+      return;
+    }
+
+    groups.push({ label, messages: [item] });
+  });
+
+  return groups;
+}
+
 export function mapChatsToProps(state: Indexed) {
-  const { chats, activeChatId, user } = state as TStoreState;
+  const { chats, activeChatId, user, messages } = state as TStoreState;
 
   const cards = chats.map((chat) => toCard(chat, activeChatId, user?.login));
   const active = cards.find((card) => card.isActive);
-  const messageGroups: IChatMessageGroup[] = [];
+  const messageGroups = toMessageGroups(messages, user?.id);
 
   return {
     chats: cards,

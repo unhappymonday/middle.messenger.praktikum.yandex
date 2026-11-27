@@ -3,8 +3,10 @@ import type { TSignInRequest, TSignUpRequest } from "@/services/api/Auth/types";
 import type { TUserDTO } from "@/services/api/Users/types";
 import { ROUTES } from "@/services/config/api";
 import { handleApiError } from "@/services/controllers/helpers/handleApiError";
+import MessagesController from "@/services/controllers/MessagesController";
 import { HTTPError } from "@/services/http/HTTPError";
 import Router from "@/services/router/Router";
+import { activeChatStorage } from "@/services/storage/activeChatStorage";
 import store from "@/services/store/Store";
 
 class AuthController {
@@ -74,14 +76,20 @@ class AuthController {
 
   public async logout(): Promise<string | null> {
     try {
-      console.log("LOGOUT API: sending POST");
       await this.api.logout();
-      console.log("LOGOUT API: success");
+      const userId = (store.getState().user as TUserDTO | null)?.id;
+
+      if (userId !== undefined) {
+        activeChatStorage.clear(userId);
+      }
+
+      MessagesController.disconnect();
 
       store.setState("user", null);
       store.setState("chats", []);
       store.setState("activeChatId", null);
       store.setState("activeChatUsers", []);
+      store.setState("messages", []);
 
       this.router.go(ROUTES.LOGIN);
       return null;

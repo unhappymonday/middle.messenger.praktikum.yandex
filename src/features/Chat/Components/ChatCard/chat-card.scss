@@ -34,3 +34,11 @@
   align-items: center;
   align-self: stretch;
 }
+
+.chat-card__message {
+  display: block;
+  max-width: 10rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
